@@ -8,18 +8,16 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Tube extends SubsystemBase {
+public class Collector extends SubsystemBase {
   private WPI_VictorSPX motorA;
-  private WPI_VictorSPX motorB; 
+  private WPI_VictorSPX motorB;
 
-  /** Creates a new Tube. */
-  public Tube() {
+  /** Creates a new Collector. */
+  public Collector() {
     // TODO - assign real device IDs
-    motorA = new WPI_VictorSPX(11);
-    motorB = new WPI_VictorSPX(12);
 
-    // TODO - ?
-    // motorA.follow(motorB);
+    motorA = new WPI_VictorSPX(13);
+    motorB = new WPI_VictorSPX(14);
   }
 
   @Override
