@@ -33,11 +33,10 @@ public class Driveline extends SubsystemBase {
     rightEncoder = rightMotor.getEncoder(); //.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 4096);
     gyro = new AHRS(I2C.Port.kMXP);
 
-    // TODO - restore this when added
-    //followLeftMotor = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
-    //followRightMotor = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
-    //followLeftMotor.follow(leftMotor, false);
-    //followRightMotor.follow(rightMotor, false);
+    followLeftMotor = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
+    followRightMotor = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
+    followLeftMotor.follow(leftMotor, false);
+    followRightMotor.follow(rightMotor, false);
 
 
 
