@@ -7,9 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Turn;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Driveline;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -38,6 +41,10 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    
+    SmartDashboard.putNumber("Turn P", 0.2);
+    SmartDashboard.putNumber("Turn I", 0.1);
+    SmartDashboard.putNumber("Turn D", 0.5);
 
     driveLine.setDefaultCommand(driveWithJoystickCommand);
   }
@@ -57,7 +64,10 @@ public class RobotContainer {
     // B button
     new JoystickButton(xboxController, 2)
     .whenReleased(new DriveDistance(24, driveLine), true);
-
+    // X Button
+    new JoystickButton(xboxController, 3)
+    .whenReleased(new TurnToAngle(driveLine, 90), true);
+    //.whenReleased(new Turn(90, driveLine), true);
   }
 
   /**

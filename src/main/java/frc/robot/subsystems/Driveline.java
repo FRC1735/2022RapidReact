@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -41,7 +42,6 @@ public class Driveline extends SubsystemBase {
 
 
     rightMotor.setInverted(true);
-    //followRightMotor.setInverted(true);
 
     differentialDrive = new DifferentialDrive(leftMotor, rightMotor);
 
@@ -61,6 +61,10 @@ public class Driveline extends SubsystemBase {
     // 2 foot Left Encoder Position: 6.833340167999268 Right Encoder Value: 6.880959987640381
    }
 
+   public void set(double leftValue, double rightValue) {
+    leftMotor.set(leftValue);
+    rightMotor.set(rightValue);
+  }
 
 
    public double getEncoderPosition() {
@@ -68,6 +72,14 @@ public class Driveline extends SubsystemBase {
      double rightPosition = rightEncoder.getPosition();
 
      return (leftPosition + rightPosition) / 2;
+   }
+
+   public void zeroYaw() {
+     gyro.zeroYaw();
+   }
+
+   public double getYaw() {
+     return (gyro.getYaw());
    }
   
    public void setSpeed(double right, double left) {
