@@ -18,6 +18,7 @@ import frc.robot.subsystems.Driveline;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Tube;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -68,6 +69,13 @@ public class RobotContainer {
     new JoystickButton(xboxController, 3)
     .whenReleased(new TurnToAngle(driveLine, 180), true);
     //.whenReleased(new Turn(90, driveLine), true);
+
+    // Y Button
+    new JoystickButton(xboxController, 4)
+    .whenReleased(new SequentialCommandGroup(
+      new DriveDistance(120, driveLine),
+      new TurnToAngle(driveLine, 180)
+    ), true);
   }
 
   /**
