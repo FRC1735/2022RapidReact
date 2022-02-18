@@ -42,9 +42,9 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     
-    SmartDashboard.putNumber("Turn P", 0.2);
-    SmartDashboard.putNumber("Turn I", 0.1);
-    SmartDashboard.putNumber("Turn D", 0.5);
+    SmartDashboard.putNumber("Turn P", 0.005);
+    SmartDashboard.putNumber("Turn I", 0);
+    SmartDashboard.putNumber("Turn D", 0);
 
     driveLine.setDefaultCommand(driveWithJoystickCommand);
   }
@@ -66,7 +66,7 @@ public class RobotContainer {
     .whenReleased(new DriveDistance(24, driveLine), true);
     // X Button
     new JoystickButton(xboxController, 3)
-    .whenReleased(new TurnToAngle(driveLine, 90), true);
+    .whenReleased(new TurnToAngle(driveLine, 180), true);
     //.whenReleased(new Turn(90, driveLine), true);
   }
 

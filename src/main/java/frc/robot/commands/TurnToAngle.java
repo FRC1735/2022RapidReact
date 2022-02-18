@@ -23,7 +23,7 @@ public class TurnToAngle extends PIDCommand {
   private Driveline driveLine;
   
    public TurnToAngle(final Driveline driveLine, final int angle) {
-      this(driveLine, angle, SmartDashboard.getNumber("Turn P", 0.2), SmartDashboard.getNumber("Turn I", 0.1), SmartDashboard.getNumber("Turn D", 0.5));
+      this(driveLine, angle, SmartDashboard.getNumber("Turn P", 0.005), SmartDashboard.getNumber("Turn I", 0), SmartDashboard.getNumber("Turn D", 0));
     }   
 
 
@@ -35,9 +35,9 @@ public class TurnToAngle extends PIDCommand {
         angle,
         // This uses the output
         output -> {
-          double p2 = SmartDashboard.getNumber("Turn P", 0.2);
-          double i2 = SmartDashboard.getNumber("Turn I", 0.1);
-          double d2 = SmartDashboard.getNumber("Turn D", 0.5);
+          double p2 = SmartDashboard.getNumber("Turn P", 0.005);
+          double i2 = SmartDashboard.getNumber("Turn I", 0);
+          double d2 = SmartDashboard.getNumber("Turn D", 0);
           System.out.println("P: " + p2 + " I: " + i2 + " D: " + d2);
           System.out.println("output: " + output);
           double clampedOutput = MathUtil.clamp(output, -.1, .1);
@@ -60,9 +60,9 @@ public class TurnToAngle extends PIDCommand {
   public void initialize() {
     driveLine.zeroYaw();
 
-    double p = SmartDashboard.getNumber("Turn P", 0.2);
-    double i = SmartDashboard.getNumber("Turn I", 0.1);
-    double d = SmartDashboard.getNumber("Turn D", 0.5);
+    double p = SmartDashboard.getNumber("Turn P", 0.005);
+    double i = SmartDashboard.getNumber("Turn I", 0);
+    double d = SmartDashboard.getNumber("Turn D", 0);
 
     getController().setP(p);
     getController().setI(i);
