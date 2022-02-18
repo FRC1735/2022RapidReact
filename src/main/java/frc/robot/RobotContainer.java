@@ -16,6 +16,7 @@ import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Driveline;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tube;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -34,6 +35,7 @@ public class RobotContainer {
   private final Tube tube = new Tube();
   private final Collector collector = new Collector();
   private final Driveline driveLine = new Driveline();
+  private final Shooter shooter= new Shooter();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(xboxController, driveLine);  
