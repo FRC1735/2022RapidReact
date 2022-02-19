@@ -16,6 +16,7 @@ import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Driveline;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tube;
+import frc.robot.util.Logger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -39,8 +40,15 @@ public class RobotContainer {
   // Commands
   private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(xboxController, driveLine);  
 
+  // Misc
+  private final Logger logger;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // Switch this to false to turn off logging 
+    // TODO - hardcode isCompition check to turn this off automatically
+    logger = new Logger(true);
+
     configureButtonBindings();
     
     SmartDashboard.putNumber("Turn P", 0.005);
@@ -61,18 +69,18 @@ public class RobotContainer {
   }
 
   private void configureXBoxController() {
-    new JoystickButton(xboxController, XBoxJoystick.A).whenReleased(new DriveDistance(driveLine, 72), true);
+    new JoystickButton(xboxController, XBoxJoystick.A).whenReleased(new DriveDistance(driveLine, logger, 72), true);
 
     new JoystickButton(xboxController, XBoxJoystick.B)
-    .whenReleased(new DriveDistance(driveLine, 24), true);
+    .whenReleased(new DriveDistance(driveLine, logger, 24), true);
 
     new JoystickButton(xboxController, XBoxJoystick.X)
-    .whenReleased(new TurnToAngle(driveLine, 180), true);
+    .whenReleased(new TurnToAngle(driveLine, logger, 180), true);
 
     new JoystickButton(xboxController, XBoxJoystick.Y)
     .whenReleased(new SequentialCommandGroup(
-      new DriveDistance(driveLine, 120),
-      new TurnToAngle(driveLine, 180)
+      new DriveDistance(driveLine, logger, 120),
+      new TurnToAngle(driveLine, logger, 180)
     ), true);
   }
 

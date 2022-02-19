@@ -4,17 +4,18 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.hal.SimDevice.Direction;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Driveline;
+import frc.robot.util.Logger;
 
 public class DriveDistance extends CommandBase {
   private Driveline driveLine;
+  private Logger logger;
   private double initialEncoderPosition;
   private double distanceTicks;
 
   /** Creates a new DriveDistance. */
-  public DriveDistance(Driveline driveLine, int distanceInches) {
+  public DriveDistance(Driveline driveLine, Logger logger, int distanceInches) {
     addRequirements(driveLine);
     this.driveLine = driveLine;
     this.distanceTicks = inchesToEncoderTicks(distanceInches);
@@ -37,16 +38,16 @@ public class DriveDistance extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("END");
+    logger.log("DriveDistance.end()");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("encoder position: " + driveLine.getEncoderPosition());
-    System.out.println("isFinished initialEncoderPosition: " + initialEncoderPosition + " distanceTIcks: " + distanceTicks);
+    logger.log("DriveDistance.isFinished(): encoder position: " + driveLine.getEncoderPosition());
+    logger.log("DriveDistance.isFinished(): initialEncoderPosition: " + initialEncoderPosition + " distanceTIcks: " + distanceTicks);
     if((driveLine.getEncoderPosition() - initialEncoderPosition) > distanceTicks) {
-      System.out.println("STOPPING!!!!!!!!!");
+      logger.log("DriveDistance.isFinished(): stopping");
       driveLine.stop();
       return true;
     } else {

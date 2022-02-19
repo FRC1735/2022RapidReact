@@ -14,6 +14,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Driveline;
+import frc.robot.util.Logger;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -21,13 +22,14 @@ import frc.robot.subsystems.Driveline;
 public class TurnToAngle extends PIDCommand {
   private int atSetpoint = 0;
   private Driveline driveLine;
+  private Logger logger;
   
-   public TurnToAngle(final Driveline driveLine, final int angle) {
-      this(driveLine, angle, SmartDashboard.getNumber("Turn P", 0.005), SmartDashboard.getNumber("Turn I", 0), SmartDashboard.getNumber("Turn D", 0));
+   public TurnToAngle(final Driveline driveLine, final Logger logger, final int angle) {
+      this(driveLine, logger, angle, SmartDashboard.getNumber("Turn P", 0.005), SmartDashboard.getNumber("Turn I", 0), SmartDashboard.getNumber("Turn D", 0));
     }   
 
 
-  public TurnToAngle(Driveline driveLine, int angle, double p, double i, double d) {
+  public TurnToAngle(Driveline driveLine, final Logger logger, int angle, double p, double i, double d) {
     super(new PIDController(p, i, d),
         // This should return the measurement
         driveLine::getYaw,
@@ -35,11 +37,6 @@ public class TurnToAngle extends PIDCommand {
         angle,
         // This uses the output
         output -> {
-          double p2 = SmartDashboard.getNumber("Turn P", 0.005);
-          double i2 = SmartDashboard.getNumber("Turn I", 0);
-          double d2 = SmartDashboard.getNumber("Turn D", 0);
-          System.out.println("P: " + p2 + " I: " + i2 + " D: " + d2);
-          System.out.println("output: " + output);
           double clampedOutput = MathUtil.clamp(output, -.1, .1);
           driveLine.set(clampedOutput, -clampedOutput);
         });
@@ -52,6 +49,7 @@ public class TurnToAngle extends PIDCommand {
     getController().enableContinuousInput(-180, 180);
     getController().setTolerance(2);
 
+    this.logger = logger;
     this.driveLine = driveLine;
   }
 
@@ -76,7 +74,7 @@ public class TurnToAngle extends PIDCommand {
     if (getController().atSetpoint()) {
       atSetpoint++;
       if (atSetpoint > 4) {
-        System.out.println("TurnToAngle.isFinished true");
+        logger.log("TurnToAngle.isFinished(): true");
         return true;
       }
       return false;
