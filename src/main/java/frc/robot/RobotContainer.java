@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
-import frc.robot.commands.Turn;
 import frc.robot.commands.TurnToAngle;
+import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Driveline;
 import frc.robot.subsystems.Shooter;
@@ -58,21 +58,19 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
-    
-    // A button
-    new JoystickButton(xboxController, 1).whenReleased(new DriveDistance(72, driveLine), true);
+    configureXBoxController();
+  }
 
-    // B button
-    new JoystickButton(xboxController, 2)
+  private void configureXBoxController() {
+    new JoystickButton(xboxController, XBoxJoystick.A).whenReleased(new DriveDistance(72, driveLine), true);
+
+    new JoystickButton(xboxController, XBoxJoystick.B)
     .whenReleased(new DriveDistance(24, driveLine), true);
-    // X Button
-    new JoystickButton(xboxController, 3)
-    .whenReleased(new TurnToAngle(driveLine, 180), true);
-    //.whenReleased(new Turn(90, driveLine), true);
 
-    // Y Button
-    new JoystickButton(xboxController, 4)
+    new JoystickButton(xboxController, XBoxJoystick.X)
+    .whenReleased(new TurnToAngle(driveLine, 180), true);
+
+    new JoystickButton(xboxController, XBoxJoystick.Y)
     .whenReleased(new SequentialCommandGroup(
       new DriveDistance(120, driveLine),
       new TurnToAngle(driveLine, 180)
@@ -85,7 +83,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    // TODO
     return null;
   }
 }
