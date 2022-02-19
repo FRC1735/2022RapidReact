@@ -61,17 +61,17 @@ public class RobotContainer {
   }
 
   private void configureXBoxController() {
-    new JoystickButton(xboxController, XBoxJoystick.A).whenReleased(new DriveDistance(72, driveLine), true);
+    new JoystickButton(xboxController, XBoxJoystick.A).whenReleased(new DriveDistance(driveLine, 72), true);
 
     new JoystickButton(xboxController, XBoxJoystick.B)
-    .whenReleased(new DriveDistance(24, driveLine), true);
+    .whenReleased(new DriveDistance(driveLine, 24), true);
 
     new JoystickButton(xboxController, XBoxJoystick.X)
     .whenReleased(new TurnToAngle(driveLine, 180), true);
 
     new JoystickButton(xboxController, XBoxJoystick.Y)
     .whenReleased(new SequentialCommandGroup(
-      new DriveDistance(120, driveLine),
+      new DriveDistance(driveLine, 120),
       new TurnToAngle(driveLine, 180)
     ), true);
   }

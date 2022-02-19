@@ -14,7 +14,7 @@ public class DriveDistance extends CommandBase {
   private double distanceTicks;
 
   /** Creates a new DriveDistance. */
-  public DriveDistance(int distanceInches, Driveline driveLine) {
+  public DriveDistance(Driveline driveLine, int distanceInches) {
     addRequirements(driveLine);
     this.driveLine = driveLine;
     this.distanceTicks = inchesToEncoderTicks(distanceInches);
