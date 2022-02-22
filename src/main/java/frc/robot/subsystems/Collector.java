@@ -10,14 +10,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Collector extends SubsystemBase {
   private WPI_VictorSPX motorA;
-  private WPI_VictorSPX motorB;
 
   /** Creates a new Collector. */
   public Collector() {
     // TODO - assign real device IDs
 
     motorA = new WPI_VictorSPX(13);
-    motorB = new WPI_VictorSPX(14);
   }
 
   @Override
