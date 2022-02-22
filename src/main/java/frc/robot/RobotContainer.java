@@ -18,6 +18,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tube;
 import frc.robot.util.Logger;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -34,11 +35,11 @@ public class RobotContainer {
   // Subsystems
   private final Tube tube = new Tube();
   private final Collector collector = new Collector();
-  private final Driveline driveLine = new Driveline();
+  //private final Driveline driveLine = new Driveline();
   private final Shooter shooter= new Shooter();
 
   // Commands
-  private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(xboxController, driveLine);  
+  //private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(xboxController, driveLine);  
 
   // Misc
   private final Logger logger;
@@ -55,7 +56,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("Turn I", 0);
     SmartDashboard.putNumber("Turn D", 0);
 
-    driveLine.setDefaultCommand(driveWithJoystickCommand);
+    //driveLine.setDefaultCommand(driveWithJoystickCommand);
   }
 
   /**
@@ -69,6 +70,20 @@ public class RobotContainer {
   }
 
   private void configureXBoxController() {
+
+    new JoystickButton(xboxController, XBoxJoystick.A)
+    .whenPressed(new InstantCommand(shooter::shoot50, shooter))
+    .whenReleased(new InstantCommand(shooter::stop, shooter));
+
+    new JoystickButton(xboxController, XBoxJoystick.B)
+    .whenPressed(new InstantCommand(shooter::shoot75, shooter))
+    .whenReleased(new InstantCommand(shooter::stop, shooter));
+
+    new JoystickButton(xboxController, XBoxJoystick.X)
+    .whenPressed(new InstantCommand(shooter::shoot100, shooter))
+    .whenReleased(new InstantCommand(shooter::stop, shooter));
+
+    /*
     new JoystickButton(xboxController, XBoxJoystick.A).whenReleased(new DriveDistance(driveLine, logger, 72), true);
 
     new JoystickButton(xboxController, XBoxJoystick.B)
@@ -82,6 +97,7 @@ public class RobotContainer {
       new DriveDistance(driveLine, logger, 120),
       new TurnToAngle(driveLine, logger, 180)
     ), true);
+    */
   }
 
   /**

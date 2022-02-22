@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 import com.revrobotics.CANSparkMaxLowLevel;
-
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,7 +14,10 @@ public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
   public Shooter() {
     // TODO - assign real device IDs
-    motor = new CANSparkMax(13,CANSparkMaxLowLevel.MotorType.kBrushless);
+
+    // TODO - '4' temporarily assigned for shooter test
+    motor = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
+    motor.setIdleMode(IdleMode.kCoast);
   }
 
   @Override
@@ -22,11 +25,23 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void shoot() {
-    // TODO
+  private void shoot(double speed) {
+    motor.set(speed);
+  }
+
+  public void shoot50() {
+    shoot(.5);
+  }
+
+  public void shoot75() {
+    shoot(.75);
+  }
+
+  public void shoot100() {
+    shoot(1);
   }
 
   public void stop() {
-    // TODO
+    motor.stopMotor();
   }
 }
