@@ -10,20 +10,24 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Tube extends SubsystemBase {
   private WPI_VictorSPX motorA;
-  private WPI_VictorSPX motorB; 
 
   /** Creates a new Tube. */
   public Tube() {
     // TODO - assign real device IDs
     motorA = new WPI_VictorSPX(11);
-    motorB = new WPI_VictorSPX(12);
 
-    // TODO - ?
-    // motorA.follow(motorB);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void in() {
+    // TODO
+  }
+
+  public void out() {
+    // TODO 
   }
 }

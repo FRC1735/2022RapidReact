@@ -9,17 +9,36 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Collector extends SubsystemBase {
+  // TODO - rename to match function
   private WPI_VictorSPX motorA;
+  private WPI_VictorSPX motorB;
 
   /** Creates a new Collector. */
   public Collector() {
     // TODO - assign real device IDs
 
     motorA = new WPI_VictorSPX(13);
+    motorB = new WPI_VictorSPX(14);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void deploy() {
+    // TODO 
+  }
+
+  public void withdraw() {
+    // TODO
+  }
+
+  public void in() {
+    // TODO
+  }
+
+  public void out() {
+    // TODO
   }
 }

@@ -14,11 +14,19 @@ public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
   public Shooter() {
     // TODO - assign real device IDs
-    motor=new CANSparkMax(13,CANSparkMaxLowLevel.MotorType.kBrushless);
+    motor = new CANSparkMax(13,CANSparkMaxLowLevel.MotorType.kBrushless);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void shoot() {
+    // TODO
+  }
+
+  public void stop() {
+    // TODO
   }
 }
