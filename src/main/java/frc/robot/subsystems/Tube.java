@@ -25,9 +25,11 @@ public class Tube extends SubsystemBase {
 
   public void in() {
     // TODO
+    motorA.set(0.2);
   }
 
   public void out() {
     // TODO 
+    motorA.stopMotor();
   }
 }

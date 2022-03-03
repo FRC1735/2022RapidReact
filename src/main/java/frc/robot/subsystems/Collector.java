@@ -28,17 +28,25 @@ public class Collector extends SubsystemBase {
 
   public void deploy() {
     // TODO 
+    motorA.set(0.2);
   }
 
   public void withdraw() {
     // TODO
+    motorA.stopMotor();
   }
 
   public void in() {
     // TODO
+    motorB.set(0.2);
   }
 
   public void out() {
     // TODO
+    motorB.set(-0.2);
+  }
+
+  public void stopMove() {
+    motorB.stopMotor();
   }
 }
