@@ -28,16 +28,21 @@ public class Driveline extends SubsystemBase {
 
   /** Creates a new Driveline. */
   public Driveline() {
-    leftMotor = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+    // 3 is good on left
+    leftMotor = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless); // og - 2, testing with 3 cuz 2 wasn't working
     leftEncoder = leftMotor.getEncoder(); //.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 4096);
-    rightMotor = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
+    
+    // 5 is good on right
+    // 4 is good?
+    rightMotor = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless); // og - 4, testing with 5 because 4 wasn't working
     rightEncoder = rightMotor.getEncoder(); //.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 4096);
     gyro = new AHRS(I2C.Port.kMXP);
 
-    followLeftMotor = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
-    followRightMotor = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless);
-    followLeftMotor.follow(leftMotor, false);
-    followRightMotor.follow(rightMotor, false);
+    //followLeftMotor = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless);
+    //followRightMotor = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
+    //followLeftMotor.follow(leftMotor, false);
+    //followRightMotor.follow(rightMotor, false);
 
     rightMotor.setInverted(true);
 
@@ -87,7 +92,6 @@ public class Driveline extends SubsystemBase {
 
 
   public void arcadeDrive(final double joystickX, final double joystickY) {
-    // JTA - THIS IS WHERE THE NOISE IS GENERATED
     differentialDrive.arcadeDrive(-joystickY, joystickX, true);
   }
 

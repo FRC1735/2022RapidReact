@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,7 +15,7 @@ public class Tube extends SubsystemBase {
   /** Creates a new Tube. */
   public Tube() {
     // TODO - assign real device IDs
-    motorA = new WPI_VictorSPX(11);
+    motorA = new WPI_VictorSPX(8);
 
   }
 
@@ -25,11 +26,15 @@ public class Tube extends SubsystemBase {
 
   public void in() {
     // TODO
-    motorA.set(0.2);
+    motorA.set(ControlMode.PercentOutput, 0.2);
   }
 
   public void out() {
     // TODO 
+    motorA.set(ControlMode.PercentOutput, -0.2);
+  }
+
+  public void stop() {
     motorA.stopMotor();
   }
 }

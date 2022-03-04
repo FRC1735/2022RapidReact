@@ -34,9 +34,9 @@
     
     // Subsystems
     private final Tube tube = new Tube();
-    private final Collector collector = new Collector();
+    //private final Collector collector = new Collector();
     private final Driveline driveLine = new Driveline();
-    private final Shooter shooter= new Shooter();
+    //private final Shooter shooter= new Shooter();
 
     // Commands
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(xboxController, driveLine);  
@@ -70,15 +70,28 @@
     }
 
     private void configureXBoxController() {
+      /*
       // Collector - deploy
       new JoystickButton(xboxController, XBoxJoystick.B)
       .whenPressed(new InstantCommand(collector::deploy, collector))
-      .whenReleased(new InstantCommand(collector::withdraw, collector));
+      .whenReleased(new InstantCommand(collector::withdraw, collector)); // JTA - this is bad
 
       // Collector - in
       new JoystickButton(xboxController, XBoxJoystick.A)
       .whenPressed(new InstantCommand(collector::in, collector))
-      .whenReleased(new InstantCommand(collector::stop, collector));
+      .whenReleased(new InstantCommand(collector::stopMove, collector));
+      */
+
+      // Tube - in
+      new JoystickButton(xboxController, XBoxJoystick.B)
+      .whenPressed(new InstantCommand(tube::in, tube))
+      .whenReleased(new InstantCommand(tube::stop, tube));
+
+      // Tube - out
+      new JoystickButton(xboxController, XBoxJoystick.A)
+      .whenPressed(new InstantCommand(tube::out, tube))
+      .whenReleased(new InstantCommand(tube::stop, tube));
+  
       
 
       // For testing auto commands
