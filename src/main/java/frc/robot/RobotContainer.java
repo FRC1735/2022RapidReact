@@ -70,18 +70,6 @@
     }
 
     private void configureXBoxController() {
-      /*
-      // Collector - deploy
-      new JoystickButton(xboxController, XBoxJoystick.B)
-      .whenPressed(new InstantCommand(collector::deploy, collector))
-      .whenReleased(new InstantCommand(collector::withdraw, collector)); // JTA - this is bad
-
-      // Collector - in
-      new JoystickButton(xboxController, XBoxJoystick.A)
-      .whenPressed(new InstantCommand(collector::in, collector))
-      .whenReleased(new InstantCommand(collector::stopMove, collector));
-      */
-
       // Collector - in
       new JoystickButton(xboxController, XBoxJoystick.Y)
       .whenPressed(new InstantCommand(collector::in, collector))
@@ -104,7 +92,6 @@
       .whenPressed(new InstantCommand(collector::up, collector))
       .whenReleased(new InstantCommand(collector::stopDeploy, collector));
       */
-
 
       // Tube - in
       new JoystickButton(xboxController, XBoxJoystick.B)
