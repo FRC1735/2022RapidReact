@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -11,14 +13,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Collector extends SubsystemBase {
   // TODO - rename to match function
   private WPI_VictorSPX collectController;
-  private WPI_VictorSPX deployController;
+  private WPI_TalonSRX deployController;
 
   /** Creates a new Collector. */
   public Collector() {
-    // TODO - assign real device IDs
-
     collectController = new WPI_VictorSPX(7);
-    deployController = new WPI_VictorSPX(14);
+    deployController = new WPI_TalonSRX(10);
+
+    deployController.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
@@ -26,14 +28,12 @@ public class Collector extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void deploy() {
-    // TODO - direction probably wrong be very careful when testing pre limit switch
-    deployController.set(0.1);
+  public void down() {
+    deployController.set(-0.2);
   }
 
-  public void withdraw() {
-    // TODO - direction probably wrong be very careful when testing pre limit switch
-    deployController.set(-0.1);
+  public void up() {
+    deployController.set(0.2);
   }
 
   public void stopDeploy() {
@@ -41,12 +41,10 @@ public class Collector extends SubsystemBase {
   }
 
   public void in() {
-    // TODO
     collectController.set(-0.2);
   }
 
   public void out() {
-    // TODO
     collectController.set(0.2);
   }
 
