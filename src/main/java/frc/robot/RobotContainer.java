@@ -29,29 +29,28 @@
    * subsystems, commands, and button mappings) should be declared here.
    */
   public class RobotContainer {
+    // Misc
+    // Switch this to false to turn off logging
+    // TODO - hardcode isCompition check to turn this off automatically
+    private final Logger logger = new Logger(true);
+
     // Joysticks
     Joystick xboxController = new Joystick(0);
-    
+
     // Subsystems
     private final Tube tube = new Tube();
     private final Collector collector = new Collector();
-    private final Driveline driveLine = new Driveline();
+    private final Driveline driveLine = new Driveline(logger);
     private final Shooter shooter= new Shooter();
 
     // Commands
-    private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(xboxController, driveLine);  
-
-    // Misc
-    private final Logger logger;
+    private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(logger, xboxController, driveLine);
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-      // Switch this to false to turn off logging 
-      // TODO - hardcode isCompition check to turn this off automatically
-      logger = new Logger(true);
 
       configureButtonBindings();
-      
+
       SmartDashboard.putNumber("Turn P", 0.005);
       SmartDashboard.putNumber("Turn I", 0);
       SmartDashboard.putNumber("Turn D", 0);
@@ -102,7 +101,7 @@
       new JoystickButton(xboxController, XBoxJoystick.A)
       .whenPressed(new InstantCommand(tube::out, tube))
       .whenReleased(new InstantCommand(tube::stop, tube));
-  
+
       // Shooter - shoot
       new JoystickButton(xboxController, XBoxJoystick.RB)
       .whenPressed(new InstantCommand(shooter::shoot, shooter))

@@ -7,15 +7,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Driveline;
+import frc.robot.util.Logger;
 
 public class DriveWithJoystick extends CommandBase {
 
 private Joystick joystick;
 private Driveline driveLine;
+private Logger logger;
   /** Creates a new DriveWithJoystick. */
-  public DriveWithJoystick(Joystick joystick, Driveline driveLine) {
+  public DriveWithJoystick(Logger logger, Joystick joystick, Driveline driveLine) {
     addRequirements(driveLine);
 
+    this.logger = logger;
     this.joystick = joystick;
     this.driveLine = driveLine;
   }
@@ -27,7 +30,12 @@ private Driveline driveLine;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveLine.arcadeDrive(joystick.getRawAxis(0), joystick.getRawAxis(1));
+    double x = joystick.getRawAxis(0);
+    double y = joystick.getRawAxis(1);
+
+    //logger.log("DriveWithJoystick(x=" + x + ", y=" + y + ")");
+
+    driveLine.arcadeDrive(x, y);
   }
 
   // Called once the command ends or is interrupted.

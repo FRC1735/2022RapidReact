@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveKinematicsConst
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.Logger;
 
 public class Driveline extends SubsystemBase {
   private CANSparkMax leftMotor;
@@ -25,17 +26,19 @@ public class Driveline extends SubsystemBase {
   private RelativeEncoder rightEncoder;
   private RelativeEncoder leftEncoder;
   public final AHRS gyro;
+  private Logger logger;
 
   /** Creates a new Driveline. */
-  public Driveline() {
+  public Driveline(Logger logger) {
+    this.logger = logger;
 
     // 3 is good on left
-    leftMotor = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless); // og - 2, testing with 3 cuz 2 wasn't working
+    leftMotor = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless); // og - 2, testing with 3 cuz 2 wasn't working
     leftEncoder = leftMotor.getEncoder(); //.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 4096);
     
     // 5 is good on right
     // 4 is good?
-    rightMotor = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless); // og - 4, testing with 5 because 4 wasn't working
+    rightMotor = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless); // og - 4, testing with 5 because 4 wasn't working
     rightEncoder = rightMotor.getEncoder(); //.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 4096);
     gyro = new AHRS(I2C.Port.kMXP);
 
@@ -44,7 +47,7 @@ public class Driveline extends SubsystemBase {
     //followLeftMotor.follow(leftMotor, false);
     //followRightMotor.follow(rightMotor, false);
 
-    rightMotor.setInverted(true);
+    //rightMotor.setInverted(true);
 
     differentialDrive = new DifferentialDrive(leftMotor, rightMotor);
 
@@ -65,6 +68,7 @@ public class Driveline extends SubsystemBase {
    }
 
    public void set(double leftValue, double rightValue) {
+    logger.log("Driveline set(leftValue: " + leftValue + ", rightValue: " + rightValue);
     leftMotor.set(leftValue);
     rightMotor.set(rightValue);
   }
@@ -92,7 +96,8 @@ public class Driveline extends SubsystemBase {
 
 
   public void arcadeDrive(final double joystickX, final double joystickY) {
-    differentialDrive.arcadeDrive(-joystickY, joystickX, true);
+    //differentialDrive.arcadeDrive(-joystickY, joystickX, true);
+    differentialDrive.arcadeDrive(joystickX, -joystickY, true);
   }
 
   public void tankDrive(final double joystickAY, final double joystickBY) {
