@@ -13,8 +13,7 @@ public class Shooter extends SubsystemBase {
   private CANSparkMax motor;
   /** Creates a new Shooter. */
   public Shooter() {
-    // TODO - assign real device IDs
-    motor = new CANSparkMax(13,CANSparkMaxLowLevel.MotorType.kBrushless);
+    motor = new CANSparkMax(6, CANSparkMaxLowLevel.MotorType.kBrushless);
   }
 
   @Override
@@ -23,12 +22,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public void shoot() {
-    // TODO
+    // TODO - direction?
     motor.set(0.5);
   }
 
   public void stop() {
-    // TODO
     motor.stopMotor();
   }
 }

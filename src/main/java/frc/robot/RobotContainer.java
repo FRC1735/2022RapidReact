@@ -36,7 +36,7 @@
     private final Tube tube = new Tube();
     private final Collector collector = new Collector();
     private final Driveline driveLine = new Driveline();
-    //private final Shooter shooter= new Shooter();
+    private final Shooter shooter= new Shooter();
 
     // Commands
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(xboxController, driveLine);  
@@ -102,7 +102,10 @@
       .whenPressed(new InstantCommand(tube::out, tube))
       .whenReleased(new InstantCommand(tube::stop, tube));
   
-      
+      // Shooter - shoot
+      new JoystickButton(xboxController, XBoxJoystick.RB)
+      .whenPressed(new InstantCommand(shooter::shoot, shooter))
+      .whenReleased(new InstantCommand(shooter::stop, shooter));
 
       // For testing auto commands
       /*
