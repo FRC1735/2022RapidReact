@@ -10,15 +10,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Collector extends SubsystemBase {
   // TODO - rename to match function
-  private WPI_VictorSPX motorA;
-  private WPI_VictorSPX motorB;
+  private WPI_VictorSPX collectController;
+  private WPI_VictorSPX deployController;
 
   /** Creates a new Collector. */
   public Collector() {
     // TODO - assign real device IDs
 
-    motorA = new WPI_VictorSPX(13);
-    motorB = new WPI_VictorSPX(14);
+    collectController = new WPI_VictorSPX(7);
+    deployController = new WPI_VictorSPX(14);
   }
 
   @Override
@@ -27,26 +27,30 @@ public class Collector extends SubsystemBase {
   }
 
   public void deploy() {
-    // TODO 
-    motorA.set(0.2);
+    // TODO - direction probably wrong be very careful when testing pre limit switch
+    deployController.set(0.1);
   }
 
   public void withdraw() {
-    // TODO
-    motorA.stopMotor();
+    // TODO - direction probably wrong be very careful when testing pre limit switch
+    deployController.set(-0.1);
+  }
+
+  public void stopDeploy() {
+    deployController.stopMotor();
   }
 
   public void in() {
     // TODO
-    motorB.set(0.2);
+    collectController.set(-0.2);
   }
 
   public void out() {
     // TODO
-    motorB.set(-0.2);
+    collectController.set(0.2);
   }
 
-  public void stopMove() {
-    motorB.stopMotor();
+  public void stopCollect() {
+    collectController.stopMotor();
   }
 }

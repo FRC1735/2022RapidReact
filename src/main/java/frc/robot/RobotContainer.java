@@ -34,7 +34,7 @@
     
     // Subsystems
     private final Tube tube = new Tube();
-    //private final Collector collector = new Collector();
+    private final Collector collector = new Collector();
     private final Driveline driveLine = new Driveline();
     //private final Shooter shooter= new Shooter();
 
@@ -81,6 +81,16 @@
       .whenPressed(new InstantCommand(collector::in, collector))
       .whenReleased(new InstantCommand(collector::stopMove, collector));
       */
+
+      // Collector - in
+      new JoystickButton(xboxController, XBoxJoystick.Y)
+      .whenPressed(new InstantCommand(collector::in, collector))
+      .whenReleased(new InstantCommand(collector::stopCollect, collector));
+
+      // Collector - out
+      new JoystickButton(xboxController, XBoxJoystick.X)
+      .whenPressed(new InstantCommand(collector::out, collector))
+      .whenReleased(new InstantCommand(collector::stopCollect, collector));
 
       // Tube - in
       new JoystickButton(xboxController, XBoxJoystick.B)
