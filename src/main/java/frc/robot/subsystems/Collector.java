@@ -15,6 +15,8 @@ public class Collector extends SubsystemBase {
   private WPI_VictorSPX collectController;
   private WPI_TalonSRX deployController;
 
+  private double SPEED = 0.5;
+
   /** Creates a new Collector. */
   public Collector() {
     collectController = new WPI_VictorSPX(7);
@@ -29,11 +31,11 @@ public class Collector extends SubsystemBase {
   }
 
   public void down() {
-    deployController.set(-0.2);
+    deployController.set(-SPEED);
   }
 
   public void up() {
-    deployController.set(0.2);
+    deployController.set(SPEED);
   }
 
   public void stopDeploy() {

@@ -81,7 +81,6 @@
 
       // TODO - THESE ARE DANGEROUS TO USE UNTIL LIMIT SWITCHES ARE IN PLACE, SHOULD BE COMMENTED OUT WHEN COMMITTED
       // Collector - down
-      /*
       new JoystickButton(xboxController, XBoxJoystick.START)
       .whenPressed(new InstantCommand(collector::down, collector))
       .whenReleased(new InstantCommand(collector::stopDeploy, collector));
@@ -90,7 +89,7 @@
       new JoystickButton(xboxController, XBoxJoystick.BACK)
       .whenPressed(new InstantCommand(collector::up, collector))
       .whenReleased(new InstantCommand(collector::stopDeploy, collector));
-      */
+      
 
       // Tube - in
       new JoystickButton(xboxController, XBoxJoystick.B)
