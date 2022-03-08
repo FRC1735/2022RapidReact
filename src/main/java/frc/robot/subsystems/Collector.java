@@ -11,11 +11,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Collector extends SubsystemBase {
-  // TODO - rename to match function
   private WPI_VictorSPX collectController;
   private WPI_TalonSRX deployController;
 
-  private double SPEED = 0.5;
+  private double COLLECT_SPEED = 1;
+  private double DEPLOY_SPEED = 0.5;
 
   /** Creates a new Collector. */
   public Collector() {
@@ -31,11 +31,11 @@ public class Collector extends SubsystemBase {
   }
 
   public void down() {
-    deployController.set(-SPEED);
+    deployController.set(-DEPLOY_SPEED);
   }
 
   public void up() {
-    deployController.set(SPEED);
+    deployController.set(DEPLOY_SPEED);
   }
 
   public void stopDeploy() {
@@ -43,11 +43,11 @@ public class Collector extends SubsystemBase {
   }
 
   public void in() {
-    collectController.set(-0.2);
+    collectController.set(-COLLECT_SPEED);
   }
 
   public void out() {
-    collectController.set(0.2);
+    collectController.set(COLLECT_SPEED);
   }
 
   public void stopCollect() {

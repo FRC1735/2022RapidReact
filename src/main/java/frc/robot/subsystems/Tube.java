@@ -12,13 +12,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Tube extends SubsystemBase {
   private WPI_VictorSPX motorA;
 
-  private double SPEED = 0.5;
+  private double SPEED = 1;
 
   /** Creates a new Tube. */
   public Tube() {
-    // TODO - assign real device IDs
     motorA = new WPI_VictorSPX(8);
-
   }
 
   @Override
@@ -27,12 +25,10 @@ public class Tube extends SubsystemBase {
   }
 
   public void in() {
-    // TODO
     motorA.set(ControlMode.PercentOutput, SPEED);
   }
 
   public void out() {
-    // TODO 
     motorA.set(ControlMode.PercentOutput, -SPEED);
   }
 

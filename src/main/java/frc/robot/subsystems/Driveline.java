@@ -28,46 +28,24 @@ public class Driveline extends SubsystemBase {
   public final AHRS gyro;
   private Logger logger;
 
+  // TODO - set motors to coast
+
   /** Creates a new Driveline. */
   public Driveline(Logger logger) {
     this.logger = logger;
 
-    // AFTER LUNCH
-    // Keep 5 on right
-    // Test 2 on left
-
-    // If 2 works on left - It doesn't
-    // Change right to 4
-
-    // If both work consolidate
-
-    // else
-
-    // If 2 on left doesn't work
-    // Switch bak to 3 on left
-    // And test 4 on right
-
-    // 4 works!
-
-    // If 4 works then hardware debug 2
-
-    // 3 is good on left
-    // 2 is not working
-    leftMotor = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless); // og - 2, testing with 3 cuz 2 wasn't working
+    leftMotor = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless); // og - 2, testing with 3 cuz 2 wasn't working
     leftEncoder = leftMotor.getEncoder(); //.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 4096);
     
-    // 5 is good on right
-    // 4 is good?
     rightMotor = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless); // og - 4, testing with 5 because 4 wasn't working
     rightEncoder = rightMotor.getEncoder(); //.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 4096);
     gyro = new AHRS(I2C.Port.kMXP);
 
-    //followLeftMotor = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless);
-    //followRightMotor = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
-    //followLeftMotor.follow(leftMotor, false);
-    //followRightMotor.follow(rightMotor, false);
+    followRightMotor = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless);
+    followLeftMotor = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
+    followLeftMotor.follow(leftMotor);
+    followRightMotor.follow(rightMotor);
 
-    //rightMotor.setInverted(true);
 
     differentialDrive = new DifferentialDrive(leftMotor, rightMotor);
 
