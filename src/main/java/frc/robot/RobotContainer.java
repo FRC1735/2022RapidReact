@@ -9,13 +9,16 @@ import edu.wpi.first.wpilibj.GenericHID;
   import edu.wpi.first.wpilibj.Joystick;
   import edu.wpi.first.wpilibj.XboxController;
   import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-  import frc.robot.commands.DriveDistance;
+import frc.robot.commands.CollectWithTrigger;
+import frc.robot.commands.DeployCollectorWithJoystick;
+import frc.robot.commands.DriveDistance;
   import frc.robot.commands.DriveWithJoystick;
   import frc.robot.commands.TurnToAngle;
   import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
-  import frc.robot.subsystems.Driveline;
+import frc.robot.subsystems.CollectorDeployer;
+import frc.robot.subsystems.Driveline;
   import frc.robot.subsystems.Shooter;
   import frc.robot.subsystems.Tube;
   import frc.robot.util.Logger;
@@ -38,21 +41,24 @@ import frc.robot.subsystems.Collector;
 
     // Joysticks
     Joystick xboxController = new Joystick(0);
+    Joystick attack3Controller = new Joystick(1);
 
     // Subsystems
     private final Tube tube = new Tube();
     private final Collector collector = new Collector();
+    private final CollectorDeployer collectorDeployer = new CollectorDeployer();
     private final Driveline driveLine = new Driveline(logger);
     private final Shooter shooter= new Shooter();
     private final Climber climber = new Climber();
 
     // Commands
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(logger, xboxController, driveLine);
+    private final DeployCollectorWithJoystick deployCollectorWithJoystickCommand = new DeployCollectorWithJoystick(attack3Controller, collectorDeployer);
+    private final CollectWithTrigger collectWithTrigger = new CollectWithTrigger(xboxController, collector);
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
 
-      // This should be all we need for USB camera
       // https://docs.wpilib.org/en/stable/docs/software/vision-processing/roborio/using-the-cameraserver-on-the-roborio.html
       CameraServer.startAutomaticCapture();
 
@@ -62,7 +68,9 @@ import frc.robot.subsystems.Collector;
       SmartDashboard.putNumber("Turn I", 0);
       SmartDashboard.putNumber("Turn D", 0);
 
-      //driveLine.setDefaultCommand(driveWithJoystickCommand);
+      driveLine.setDefaultCommand(driveWithJoystickCommand);
+      collectorDeployer.setDefaultCommand(deployCollectorWithJoystickCommand);
+      collector.setDefaultCommand(collectWithTrigger);
     }
 
     /**
@@ -72,65 +80,72 @@ import frc.robot.subsystems.Collector;
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-      configureXBoxController();
+      configureXBoxController(); // driver
+      configureAttack3(); // operator
+
     }
 
     private void configureXBoxController() {
+      // TODO - Collector in
 
-      // TODO - quick test, revert
+      
+      // Collector - out
+      new JoystickButton(xboxController, XBoxJoystick.RB)
+        .whenPressed(new InstantCommand(collector::out, collector))
+        .whenReleased(new InstantCommand(collector::stopCollect, collector));
 
-      // Climb - up, this makes the robot climb down
-      new JoystickButton(xboxController, XBoxJoystick.Y)
-      .whenPressed(new InstantCommand(climber::up, climber))
-      .whenReleased(new InstantCommand(climber::stop, climber));
-
-      // Climb - down, this make the robot climb up
+      // Tube - in
       new JoystickButton(xboxController, XBoxJoystick.X)
-      .whenPressed(new InstantCommand(climber::down, climber))
-      .whenReleased(new InstantCommand(climber::stop, climber));
+        .whenPressed(new InstantCommand(tube::in, tube))
+        .whenReleased(new InstantCommand(tube::stop, tube));
+
+      // Tube - out
+      new JoystickButton(xboxController, XBoxJoystick.Y)
+        .whenPressed(new InstantCommand(tube::out, tube))
+        .whenReleased(new InstantCommand(tube::stop, tube));
+
+      // Shooter - on
+      new JoystickButton(xboxController, XBoxJoystick.A)
+        .whenPressed(new InstantCommand(shooter::shoot, shooter))
+        .whenReleased(new InstantCommand(shooter::stop, shooter));
+
+      // Shooter - unshoot
+      new JoystickButton(xboxController, XBoxJoystick.B)
+        .whenPressed(new InstantCommand(shooter::unShoot, shooter))
+        .whenReleased(new InstantCommand(shooter::stop, shooter));
 
 
 
       /*
+
+
+
+
       // Collector - in
       new JoystickButton(xboxController, XBoxJoystick.Y)
       .whenPressed(new InstantCommand(collector::in, collector))
       .whenReleased(new InstantCommand(collector::stopCollect, collector));
 
-      // Collector - out
-      new JoystickButton(xboxController, XBoxJoystick.X)
-      .whenPressed(new InstantCommand(collector::out, collector))
-      .whenReleased(new InstantCommand(collector::stopCollect, collector));
 
-      // TODO - THESE ARE DANGEROUS TO USE UNTIL LIMIT SWITCHES ARE IN PLACE, SHOULD BE COMMENTED OUT WHEN COMMITTED
-      // Collector - down
-      
+
+      // Collector - up
       new JoystickButton(xboxController, XBoxJoystick.START)
+      .whenPressed(new InstantCommand(collector::up, collector))
+      .whenReleased(new InstantCommand(collector::stopDeploy, collector));
+
+      // Collector - down
+      new JoystickButton(xboxController, XBoxJoystick.BACK)
       .whenPressed(new InstantCommand(collector::down, collector))
       .whenReleased(new InstantCommand(collector::stopDeploy, collector));
 
-      // Collector - up
-      new JoystickButton(xboxController, XBoxJoystick.BACK)
-      .whenPressed(new InstantCommand(collector::up, collector))
-      .whenReleased(new InstantCommand(collector::stopDeploy, collector));
-      
+      /*
 
-      // Tube - in
-      new JoystickButton(xboxController, XBoxJoystick.B)
-      .whenPressed(new InstantCommand(tube::in, tube))
-      .whenReleased(new InstantCommand(tube::stop, tube));
 
-      // Tube - out
-      new JoystickButton(xboxController, XBoxJoystick.A)
-      .whenPressed(new InstantCommand(tube::out, tube))
-      .whenReleased(new InstantCommand(tube::stop, tube));
 
-      // Shooter - shoot
-      new JoystickButton(xboxController, XBoxJoystick.RB)
-      .whenPressed(new InstantCommand(shooter::shoot, shooter))
-      .whenReleased(new InstantCommand(shooter::stop, shooter));
+
 
       */
+      
       // For testing auto commands
       /*
       new JoystickButton(xboxController, XBoxJoystick.A).whenReleased(new DriveDistance(driveLine, logger, 72), true);
@@ -147,6 +162,21 @@ import frc.robot.subsystems.Collector;
         new TurnToAngle(driveLine, logger, 180)
       ), true);
       */
+    }
+
+    private void configureAttack3() {
+      
+      // TODO - use Joystick to make collector go up and down
+
+      // Climb - down, this make the robot climb up
+      new JoystickButton(attack3Controller, 11)
+        .whenPressed(new InstantCommand(climber::down, climber))
+        .whenReleased(new InstantCommand(climber::stop, climber));
+
+      // Climb - up, this makes the robot climb down
+      new JoystickButton(attack3Controller, 10)
+        .whenPressed(new InstantCommand(climber::up, climber))
+        .whenReleased(new InstantCommand(climber::stop, climber));
     }
 
     /**

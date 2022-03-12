@@ -23,7 +23,12 @@ public class Shooter extends SubsystemBase {
 
   public void shoot() {
     // TODO - direction?
-    motor.set(0.8);
+    motor.set(0.2);
+  }
+
+  public void unShoot() {
+    // TODO - direction?
+    motor.set(-0.2);
   }
 
   public void stop() {
