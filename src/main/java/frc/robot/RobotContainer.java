@@ -106,7 +106,7 @@ import frc.robot.subsystems.Driveline;
 
       // Shooter - on
       new JoystickButton(xboxController, XBoxJoystick.A)
-        .whenPressed(new InstantCommand(shooter::shoot, shooter))
+        .whenPressed(shooter::setVelocity, shooter)
         .whenReleased(new InstantCommand(shooter::stop, shooter));
 
       // Shooter - unshoot
