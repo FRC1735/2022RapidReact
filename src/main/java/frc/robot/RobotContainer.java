@@ -4,7 +4,8 @@
 
   package frc.robot;
 
-  import edu.wpi.first.wpilibj.GenericHID;
+  import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.GenericHID;
   import edu.wpi.first.wpilibj.Joystick;
   import edu.wpi.first.wpilibj.XboxController;
   import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -50,6 +51,10 @@ import frc.robot.subsystems.Collector;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+
+      // This should be all we need for USB camera
+      // https://docs.wpilib.org/en/stable/docs/software/vision-processing/roborio/using-the-cameraserver-on-the-roborio.html
+      CameraServer.startAutomaticCapture();
 
       configureButtonBindings();
 
