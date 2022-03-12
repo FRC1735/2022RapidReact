@@ -28,6 +28,11 @@ public class Collector extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    boolean fwdLimitClosed = deployController.isFwdLimitSwitchClosed() == 1;
+    boolean revLimitClosed = deployController.isRevLimitSwitchClosed() == 1;
+
+    //System.out.println("JTA - revLimitClosed: " + revLimitClosed + ", fwdLimitClosed: " + fwdLimitClosed);
   }
 
   public void down() {

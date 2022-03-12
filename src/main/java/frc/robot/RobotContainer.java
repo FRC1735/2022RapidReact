@@ -12,7 +12,8 @@
   import frc.robot.commands.DriveWithJoystick;
   import frc.robot.commands.TurnToAngle;
   import frc.robot.joysticks.XBoxJoystick;
-  import frc.robot.subsystems.Collector;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Collector;
   import frc.robot.subsystems.Driveline;
   import frc.robot.subsystems.Shooter;
   import frc.robot.subsystems.Tube;
@@ -42,6 +43,7 @@
     private final Collector collector = new Collector();
     private final Driveline driveLine = new Driveline(logger);
     private final Shooter shooter= new Shooter();
+    private final Climber climber = new Climber();
 
     // Commands
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(logger, xboxController, driveLine);
@@ -55,7 +57,7 @@
       SmartDashboard.putNumber("Turn I", 0);
       SmartDashboard.putNumber("Turn D", 0);
 
-      driveLine.setDefaultCommand(driveWithJoystickCommand);
+      //driveLine.setDefaultCommand(driveWithJoystickCommand);
     }
 
     /**
@@ -69,6 +71,22 @@
     }
 
     private void configureXBoxController() {
+
+      // TODO - quick test, revert
+
+      // Climb - up, this makes the robot climb down
+      new JoystickButton(xboxController, XBoxJoystick.Y)
+      .whenPressed(new InstantCommand(climber::up, climber))
+      .whenReleased(new InstantCommand(climber::stop, climber));
+
+      // Climb - down, this make the robot climb up
+      new JoystickButton(xboxController, XBoxJoystick.X)
+      .whenPressed(new InstantCommand(climber::down, climber))
+      .whenReleased(new InstantCommand(climber::stop, climber));
+
+
+
+      /*
       // Collector - in
       new JoystickButton(xboxController, XBoxJoystick.Y)
       .whenPressed(new InstantCommand(collector::in, collector))
@@ -107,6 +125,7 @@
       .whenPressed(new InstantCommand(shooter::shoot, shooter))
       .whenReleased(new InstantCommand(shooter::stop, shooter));
 
+      */
       // For testing auto commands
       /*
       new JoystickButton(xboxController, XBoxJoystick.A).whenReleased(new DriveDistance(driveLine, logger, 72), true);
