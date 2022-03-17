@@ -6,19 +6,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Driveline;
-import frc.robot.util.Logger;
+import frc.robot.util.Log;
 
 public class DriveDistance extends CommandBase {
   private Driveline driveLine;
-  private Logger logger;
+  private Log logger;
   private double initialEncoderPosition;
   private double distanceTicks;
 
   /** Creates a new DriveDistance. */
-  public DriveDistance(Driveline driveLine, Logger logger, int distanceInches) {
+  public DriveDistance(Driveline driveLine, Log logger, int distanceInches) {
     addRequirements(driveLine);
     this.driveLine = driveLine;
     this.distanceTicks = inchesToEncoderTicks(distanceInches);
+    this.logger = logger;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -31,7 +32,7 @@ public class DriveDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveLine.setSpeed(0.2, 0.2);
+    driveLine.setSpeed(-0.2, 0.2);
 
   }
 

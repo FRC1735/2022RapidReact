@@ -8,7 +8,8 @@
 import edu.wpi.first.wpilibj.GenericHID;
   import edu.wpi.first.wpilibj.Joystick;
   import edu.wpi.first.wpilibj.XboxController;
-  import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.CollectWithTrigger;
 import frc.robot.commands.DeployCollectorWithJoystick;
 import frc.robot.commands.DriveDistance;
@@ -21,11 +22,12 @@ import frc.robot.subsystems.CollectorDeployer;
 import frc.robot.subsystems.Driveline;
   import frc.robot.subsystems.Shooter;
   import frc.robot.subsystems.Tube;
-  import frc.robot.util.Logger;
+  import frc.robot.util.Log;
   import edu.wpi.first.wpilibj2.command.Command;
   import edu.wpi.first.wpilibj2.command.InstantCommand;
   import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-  import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
   /**
    * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,10 +36,12 @@ import frc.robot.subsystems.Driveline;
    * subsystems, commands, and button mappings) should be declared here.
    */
   public class RobotContainer {
+
+
     // Misc
     // Switch this to false to turn off logging
     // TODO - hardcode isCompition check to turn this off automatically
-    private final Logger logger = new Logger(true);
+    private final Log logger = new Log(true);
 
     // Joysticks
     Joystick xboxController = new Joystick(0);
@@ -56,6 +60,17 @@ import frc.robot.subsystems.Driveline;
     private final DeployCollectorWithJoystick deployCollectorWithJoystickCommand = new DeployCollectorWithJoystick(attack3Controller, collectorDeployer);
     private final CollectWithTrigger collectWithTrigger = new CollectWithTrigger(xboxController, collector);
 
+    // Auto commands
+    private final Command driveTenFeetForwards = new SequentialCommandGroup(
+      new DriveDistance(driveLine, logger, 120)
+    );
+    private final Command driveTenFeetBackwards = new SequentialCommandGroup(
+      new DriveDistance(driveLine, logger, -120)
+    );
+    private final Command doNothing = new WaitCommand(1);
+    SendableChooser<Command> autoChooser = new SendableChooser<>();
+
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
 
@@ -63,6 +78,12 @@ import frc.robot.subsystems.Driveline;
       CameraServer.startAutomaticCapture();
 
       configureButtonBindings();
+
+      autoChooser.setDefaultOption("Do Nothing", doNothing);
+      autoChooser.addOption("Drive 10 Feet Forwards", driveTenFeetForwards);
+      autoChooser.addOption("Drive 10 Feet Backwards", driveTenFeetBackwards);
+      SmartDashboard.putData(autoChooser);
+
 
       SmartDashboard.putNumber("Turn P", 0.005);
       SmartDashboard.putNumber("Turn I", 0);
@@ -157,10 +178,14 @@ import frc.robot.subsystems.Driveline;
       .whenReleased(new TurnToAngle(driveLine, logger, 180), true);
 
       new JoystickButton(xboxController, XBoxJoystick.Y)
-      .whenReleased(new SequentialCommandGroup(
+      .whenReleased(
+        
+      new SequentialCommandGroup(
         new DriveDistance(driveLine, logger, 120),
         new TurnToAngle(driveLine, logger, 180)
-      ), true);
+      )
+      
+      , true);
       */
     }
 
@@ -185,7 +210,6 @@ import frc.robot.subsystems.Driveline;
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-      // TODO
-      return null;
+      return autoChooser.getSelected();
     }
   }

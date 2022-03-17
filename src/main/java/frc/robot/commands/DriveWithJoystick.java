@@ -7,15 +7,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Driveline;
-import frc.robot.util.Logger;
+import frc.robot.util.Log;
 
 public class DriveWithJoystick extends CommandBase {
 
 private Joystick joystick;
 private Driveline driveLine;
-private Logger logger;
+private Log logger;
   /** Creates a new DriveWithJoystick. */
-  public DriveWithJoystick(Logger logger, Joystick joystick, Driveline driveLine) {
+  public DriveWithJoystick(Log logger, Joystick joystick, Driveline driveLine) {
     addRequirements(driveLine);
 
     this.logger = logger;

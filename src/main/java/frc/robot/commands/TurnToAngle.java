@@ -14,7 +14,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Driveline;
-import frc.robot.util.Logger;
+import frc.robot.util.Log;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,14 +22,14 @@ import frc.robot.util.Logger;
 public class TurnToAngle extends PIDCommand {
   private int atSetpoint = 0;
   private Driveline driveLine;
-  private Logger logger;
+  private Log logger;
   
-   public TurnToAngle(final Driveline driveLine, final Logger logger, final int angle) {
+   public TurnToAngle(final Driveline driveLine, final Log logger, final int angle) {
       this(driveLine, logger, angle, SmartDashboard.getNumber("Turn P", 0.005), SmartDashboard.getNumber("Turn I", 0), SmartDashboard.getNumber("Turn D", 0));
     }   
 
 
-  public TurnToAngle(Driveline driveLine, final Logger logger, int angle, double p, double i, double d) {
+  public TurnToAngle(Driveline driveLine, final Log logger, int angle, double p, double i, double d) {
     super(new PIDController(p, i, d),
         // This should return the measurement
         driveLine::getYaw,

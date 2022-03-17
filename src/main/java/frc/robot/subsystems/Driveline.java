@@ -15,7 +15,7 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveKinematicsConst
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.util.Logger;
+import frc.robot.util.Log;
 
 public class Driveline extends SubsystemBase {
   private CANSparkMax leftMotor;
@@ -26,12 +26,12 @@ public class Driveline extends SubsystemBase {
   private RelativeEncoder rightEncoder;
   private RelativeEncoder leftEncoder;
   public final AHRS gyro;
-  private Logger logger;
+  private Log logger;
 
   // TODO - set motors to coast
 
   /** Creates a new Driveline. */
-  public Driveline(Logger logger) {
+  public Driveline(Log logger) {
     this.logger = logger;
 
     leftMotor = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless); // og - 2, testing with 3 cuz 2 wasn't working
@@ -74,9 +74,10 @@ public class Driveline extends SubsystemBase {
 
    public double getEncoderPosition() {
      double leftPosition = leftEncoder.getPosition();
-     double rightPosition = rightEncoder.getPosition();
+    // double rightPosition = rightEncoder.getPosition();
 
-     return (leftPosition + rightPosition) / 2;
+     //return (leftPosition + rightPosition) / 2;
+     return leftPosition;
    }
 
    public void zeroYaw() {

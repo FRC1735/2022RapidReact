@@ -4,16 +4,21 @@
 
 package frc.robot.util;
 
-public class Logger {
-    private boolean enabled;
+import java.util.logging.Logger;
 
-    public Logger(final boolean enabled) {
+public class Log {
+    private boolean enabled;
+    private Logger logger;
+
+    public Log(final boolean enabled) {
         this.enabled = enabled;
+        this.logger = Logger.getLogger("frc-1735");
     }
 
     public void log(final String message) {
         if (enabled) {
             System.out.println(message);
+            
         }
     }
 }
