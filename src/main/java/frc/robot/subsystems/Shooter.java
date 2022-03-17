@@ -35,7 +35,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setVelocity() {
-    targetVelocity = 4000;
+    targetVelocity = 6000;
     pidController.setReference(targetVelocity, ControlType.kVelocity);
   }
 
