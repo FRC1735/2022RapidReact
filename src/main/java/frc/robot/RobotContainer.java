@@ -5,6 +5,7 @@
   package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -15,6 +16,8 @@ import frc.robot.commands.DeployCollectorWithJoystick;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.OptimizeTube;
+import frc.robot.commands.Shoot;
+import frc.robot.commands.TubeIn;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.Climber;
@@ -27,6 +30,7 @@ import frc.robot.subsystems.Tube;
 import frc.robot.util.Log;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -63,6 +67,16 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     private final OptimizeTube optimizeTube = new OptimizeTube(tube);
 
     // Auto commands
+    private final Command shootBallThenBackUp = new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new Shoot(shooter),
+        new SequentialCommandGroup(
+          new WaitCommand(1),
+          new TubeIn(tube)
+        ).withTimeout(3)
+      ),
+      new DriveDistance(driveLine, logger, -120)
+    );
     private final Command driveTenFeetForwards = new SequentialCommandGroup(
       new DriveDistance(driveLine, logger, 120)
     );
@@ -84,6 +98,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
       autoChooser.setDefaultOption("Do Nothing", doNothing);
       autoChooser.addOption("Drive 10 Feet Forwards", driveTenFeetForwards);
       autoChooser.addOption("Drive 10 Feet Backwards", driveTenFeetBackwards);
+      autoChooser.addOption("Shoot Ball Then Back Up", shootBallThenBackUp);
       SmartDashboard.putData(autoChooser);
 
 
