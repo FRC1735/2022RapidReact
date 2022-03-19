@@ -71,14 +71,16 @@ public class Driveline extends SubsystemBase {
     rightMotor.set(rightValue);
   }
 
+  public void resetEncoders() {
+    leftEncoder.setPosition(0);
+    rightEncoder.setPosition(0);
+  }
 
-   public double getEncoderPosition() {
-     double leftPosition = leftEncoder.getPosition();
-    // double rightPosition = rightEncoder.getPosition();
-
-     //return (leftPosition + rightPosition) / 2;
-     return leftPosition;
-   }
+  public double getEncoderPosition() {
+    double leftPosition = leftEncoder.getPosition();
+    double rightPosition = rightEncoder.getPosition();
+    return (leftPosition + rightPosition) / 2;
+  }
 
    public void zeroYaw() {
      gyro.zeroYaw();

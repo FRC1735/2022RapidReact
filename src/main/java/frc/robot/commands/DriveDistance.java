@@ -11,7 +11,6 @@ import frc.robot.util.Log;
 public class DriveDistance extends CommandBase {
   private Driveline driveLine;
   private Log logger;
-  private double initialEncoderPosition;
   private double distanceTicks;
 
   /** Creates a new DriveDistance. */
@@ -20,20 +19,22 @@ public class DriveDistance extends CommandBase {
     this.driveLine = driveLine;
     this.distanceTicks = inchesToEncoderTicks(distanceInches);
     this.logger = logger;
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    initialEncoderPosition = driveLine.getEncoderPosition();
+    driveLine.resetEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveLine.setSpeed(-0.2, 0.2);
-
+    if (distanceTicks > 0) {
+      driveLine.setSpeed(-0.2, 0.2);
+    } else {
+      driveLine.setSpeed(0.2, -0.2);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -46,8 +47,7 @@ public class DriveDistance extends CommandBase {
   @Override
   public boolean isFinished() {
     logger.log("DriveDistance.isFinished(): encoder position: " + driveLine.getEncoderPosition());
-    logger.log("DriveDistance.isFinished(): initialEncoderPosition: " + initialEncoderPosition + " distanceTIcks: " + distanceTicks);
-    if((driveLine.getEncoderPosition() - initialEncoderPosition) > distanceTicks) {
+    if (Math.abs(driveLine.getEncoderPosition()) > Math.abs(distanceTicks)) {
       logger.log("DriveDistance.isFinished(): stopping");
       driveLine.stop();
       return true;
