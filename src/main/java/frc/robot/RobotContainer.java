@@ -21,6 +21,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.CollectorDeployer;
 import frc.robot.subsystems.Driveline;
+import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tube;
 import frc.robot.util.Log;
@@ -53,6 +54,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     private final Driveline driveLine = new Driveline(logger);
     private final Shooter shooter= new Shooter();
     private final Climber climber = new Climber();
+    private final Lighting lighting = new Lighting();
 
     // Commands
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(logger, xboxController, driveLine);

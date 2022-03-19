@@ -45,12 +45,13 @@ public class OptimizeTube extends CommandBase {
       SmartDashboard.putNumber("Distance Sensor " + i, distances.get(i));
     }
 
-    // verify that the top sensor is in analog 1
+    // verify that the rear sensor is in analog 1
     if (sensors.isBallDetected(1)) {
       tube.stop();
       return;
     }
 
+    // front
     if (sensors.isBallDetected(0)) {
       tube.inOptimize();
     } else {
