@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Lighting extends SubsystemBase {
   private AddressableLED led;
   private AddressableLEDBuffer buffer;
-  private int LED_COUNT = 20; // TODO - correct count?XS
+  private int LED_COUNT = 60; // TODO - correct count?XS
 
   /** Creates a new Lighting. */
   public Lighting() {
@@ -22,6 +22,8 @@ public class Lighting extends SubsystemBase {
 
     led.setData(buffer);
     led.start();
+
+    setColor(0, 255, 0);
   }
 
   @Override

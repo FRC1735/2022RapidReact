@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Driveline;
 import frc.robot.util.Log;
@@ -46,10 +47,12 @@ public class DriveDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    SmartDashboard.putNumber("Encoder position", driveLine.getEncoderPosition());
     logger.log("DriveDistance.isFinished(): encoder position: " + driveLine.getEncoderPosition());
     if (Math.abs(driveLine.getEncoderPosition()) > Math.abs(distanceTicks)) {
       logger.log("DriveDistance.isFinished(): stopping");
       driveLine.stop();
+      driveLine.resetEncoders();
       return true;
     } else {
       return false;

@@ -70,20 +70,18 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     private final OptimizeTube optimizeTube = new OptimizeTube(tube);
 
     // Auto commands
-
-    private final Command autoShoot = new ParallelCommandGroup(
-      new Shoot(shooter),
+    
+    // TODO - this command has not been tested!
+    private final Command shootBallThenBackUp = new SequentialCommandGroup(
+      new DeployCollector(collectorDeployer).withTimeout(1.5),
+      new ParallelCommandGroup(
+      new Shoot(shooter).withTimeout(4),
       new SequentialCommandGroup(
         new WaitCommand(1),
         new TubeIn(tube)
       ).withTimeout(3)
-    );
-    
-    // TODO - this command has not been tested!
-    private final Command shootBallThenBackUp = new SequentialCommandGroup(
-      new DeployCollector(collectorDeployer),
-      autoShoot,
-      new DriveDistance(driveLine, logger, -120)
+    )//,
+    //new DriveDistance(driveLine, logger, -120)*/
     );
 
     // TODO - this command  has not been tested!
@@ -95,7 +93,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
         new DriveDistance(driveLine, logger, 42)
       ).withTimeout(5), // TODO - timeout
       new TurnToAngle(driveLine, logger, 180),
-      autoShoot
+      new ParallelCommandGroup(
+      new Shoot(shooter),
+      new SequentialCommandGroup(
+        new WaitCommand(1),
+        new TubeIn(tube)
+      ).withTimeout(3)
+    )
     );
 
     private final Command driveTenFeetForwards = new SequentialCommandGroup(
@@ -123,7 +127,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
       autoChooser.addOption("Drive, Pick Up Ball, Shoot", drivePickUpBallShoot);
       SmartDashboard.putData(autoChooser);
 
-
       SmartDashboard.putNumber("Turn P", 0.005);
       SmartDashboard.putNumber("Turn I", 0);
       SmartDashboard.putNumber("Turn D", 0);
@@ -146,10 +149,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
     }
 
-    private void configureXBoxController() {
-      // TODO - Collector in
-
-      
+    private void configureXBoxController() {      
       // Collector - out
       new JoystickButton(xboxController, XBoxJoystick.RB)
         .whenPressed(new InstantCommand(collector::out, collector))

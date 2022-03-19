@@ -79,7 +79,8 @@ public class Driveline extends SubsystemBase {
   public double getEncoderPosition() {
     double leftPosition = leftEncoder.getPosition();
     double rightPosition = rightEncoder.getPosition();
-    return (leftPosition + rightPosition) / 2;
+    return (Math.abs(leftPosition) + Math.abs(rightPosition)) / 2;
+    //return leftPosition;
   }
 
    public void zeroYaw() {
