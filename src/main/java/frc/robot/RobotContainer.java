@@ -4,28 +4,29 @@
 
   package frc.robot;
 
-  import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
-  import edu.wpi.first.wpilibj.Joystick;
-  import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.CollectWithTrigger;
 import frc.robot.commands.DeployCollectorWithJoystick;
 import frc.robot.commands.DriveDistance;
-  import frc.robot.commands.DriveWithJoystick;
-  import frc.robot.commands.TurnToAngle;
-  import frc.robot.joysticks.XBoxJoystick;
+import frc.robot.commands.DriveWithJoystick;
+import frc.robot.commands.OptimizeTube;
+import frc.robot.commands.TurnToAngle;
+import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.CollectorDeployer;
 import frc.robot.subsystems.Driveline;
-  import frc.robot.subsystems.Shooter;
-  import frc.robot.subsystems.Tube;
-  import frc.robot.util.Log;
-  import edu.wpi.first.wpilibj2.command.Command;
-  import edu.wpi.first.wpilibj2.command.InstantCommand;
-  import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Tube;
+import frc.robot.util.Log;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -36,8 +37,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
    * subsystems, commands, and button mappings) should be declared here.
    */
   public class RobotContainer {
-
-
     // Misc
     // Switch this to false to turn off logging
     // TODO - hardcode isCompition check to turn this off automatically
@@ -59,6 +58,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(logger, xboxController, driveLine);
     private final DeployCollectorWithJoystick deployCollectorWithJoystickCommand = new DeployCollectorWithJoystick(attack3Controller, collectorDeployer);
     private final CollectWithTrigger collectWithTrigger = new CollectWithTrigger(xboxController, collector);
+    private final OptimizeTube optimizeTube = new OptimizeTube(tube);
 
     // Auto commands
     private final Command driveTenFeetForwards = new SequentialCommandGroup(
@@ -92,6 +92,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
       driveLine.setDefaultCommand(driveWithJoystickCommand);
       collectorDeployer.setDefaultCommand(deployCollectorWithJoystickCommand);
       collector.setDefaultCommand(collectWithTrigger);
+      tube.setDefaultCommand(optimizeTube);
     }
 
     /**
