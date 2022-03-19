@@ -5,12 +5,14 @@
   package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.Collect;
 import frc.robot.commands.CollectWithTrigger;
 import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DeployCollectorWithJoystick;
@@ -68,19 +70,34 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     private final OptimizeTube optimizeTube = new OptimizeTube(tube);
 
     // Auto commands
+
+    private final Command autoShoot = new ParallelCommandGroup(
+      new Shoot(shooter),
+      new SequentialCommandGroup(
+        new WaitCommand(1),
+        new TubeIn(tube)
+      ).withTimeout(3)
+    );
     
     // TODO - this command has not been tested!
     private final Command shootBallThenBackUp = new SequentialCommandGroup(
       new DeployCollector(collectorDeployer),
-      new ParallelCommandGroup(
-        new Shoot(shooter),
-        new SequentialCommandGroup(
-          new WaitCommand(1),
-          new TubeIn(tube)
-        ).withTimeout(3)
-      ),
+      autoShoot,
       new DriveDistance(driveLine, logger, -120)
     );
+
+    // TODO - this command  has not been tested!
+    private final Command drivePickUpBallShoot = new SequentialCommandGroup(
+      new DeployCollector(collectorDeployer),
+      new ParallelCommandGroup(
+        // the ball should get picked up while this is running
+        new Collect(collector),
+        new DriveDistance(driveLine, logger, 42)
+      ).withTimeout(5), // TODO - timeout
+      new TurnToAngle(driveLine, logger, 180),
+      autoShoot
+    );
+
     private final Command driveTenFeetForwards = new SequentialCommandGroup(
       new DriveDistance(driveLine, logger, 120)
     );
@@ -103,6 +120,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
       autoChooser.addOption("Drive 10 Feet Forwards", driveTenFeetForwards);
       autoChooser.addOption("Drive 10 Feet Backwards", driveTenFeetBackwards);
       autoChooser.addOption("Shoot Ball Then Back Up", shootBallThenBackUp);
+      autoChooser.addOption("Drive, Pick Up Ball, Shoot", drivePickUpBallShoot);
       SmartDashboard.putData(autoChooser);
 
 
