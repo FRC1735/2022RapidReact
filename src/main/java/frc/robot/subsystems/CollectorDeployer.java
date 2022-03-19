@@ -26,6 +26,9 @@ public class CollectorDeployer extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  public boolean isDeployed() {
+    return deployController.isFwdLimitSwitchClosed() == 1;
+  }
   
   public void up() {
     deployController.set(-DEPLOY_SPEED);

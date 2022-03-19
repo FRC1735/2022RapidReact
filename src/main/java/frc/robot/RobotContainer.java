@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.CollectWithTrigger;
+import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DeployCollectorWithJoystick;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
@@ -67,7 +68,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     private final OptimizeTube optimizeTube = new OptimizeTube(tube);
 
     // Auto commands
+    
+    // TODO - this command has not been tested!
     private final Command shootBallThenBackUp = new SequentialCommandGroup(
+      new DeployCollector(collectorDeployer),
       new ParallelCommandGroup(
         new Shoot(shooter),
         new SequentialCommandGroup(
