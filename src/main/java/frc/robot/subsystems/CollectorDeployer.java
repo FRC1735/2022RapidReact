@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CollectorDeployer extends SubsystemBase {
@@ -24,6 +25,9 @@ public class CollectorDeployer extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    SmartDashboard.putNumber("fwd", deployController.isFwdLimitSwitchClosed());
+    SmartDashboard.putNumber("rev", deployController.isRevLimitSwitchClosed());
   }
 
   public boolean isDeployed() {

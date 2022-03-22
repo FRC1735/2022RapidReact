@@ -21,6 +21,7 @@ import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.OptimizeTube;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.TubeIn;
+import frc.robot.commands.TubeOut;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.Climber;
@@ -80,7 +81,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
         new WaitCommand(1),
         new TubeIn(tube)
       ).withTimeout(3)
-    )//,
+    )//, TODO - enable driving but probably put it before
     //new DriveDistance(driveLine, logger, -120)*/
     );
 
@@ -157,12 +158,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
       // Tube - in
       new JoystickButton(xboxController, XBoxJoystick.X)
-        .whenPressed(new InstantCommand(tube::in, tube))
+        .whenPressed(new TubeIn(tube))
         .whenReleased(new InstantCommand(tube::stop, tube));
 
       // Tube - out
       new JoystickButton(xboxController, XBoxJoystick.Y)
-        .whenPressed(new InstantCommand(tube::out, tube))
+        .whenPressed(new TubeOut(tube))
         .whenReleased(new InstantCommand(tube::stop, tube));
 
       // Shooter - on

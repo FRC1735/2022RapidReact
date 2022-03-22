@@ -54,9 +54,10 @@ public class OptimizeTube extends CommandBase {
     // front
     if (sensors.isBallDetected(0)) {
       tube.inOptimize();
-    } else {
-      tube.stop();
     }
+    /* else {
+      tube.stop();
+    }*/
   }
 
   // Called once the command ends or is interrupted.
