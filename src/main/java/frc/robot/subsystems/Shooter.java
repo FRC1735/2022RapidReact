@@ -35,7 +35,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setVelocity() {
-    targetVelocity = 6000;
+    //3500 - 4000 seems to be the ideal for shooting
+    targetVelocity = 3700;
     pidController.setReference(targetVelocity, ControlType.kVelocity);
   }
 

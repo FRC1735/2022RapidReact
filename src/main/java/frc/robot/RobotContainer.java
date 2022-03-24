@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Collect;
+import frc.robot.commands.CollectOut;
 import frc.robot.commands.CollectWithTrigger;
 import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DeployCollectorWithJoystick;
@@ -76,31 +77,34 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     private final Command shootBallThenBackUp = new SequentialCommandGroup(
       new DeployCollector(collectorDeployer).withTimeout(1.5),
       new ParallelCommandGroup(
-      new Shoot(shooter).withTimeout(4),
-      new SequentialCommandGroup(
-        new WaitCommand(1),
-        new TubeIn(tube)
-      ).withTimeout(3)
-    )//, TODO - enable driving but probably put it before
+        new Shoot(shooter),
+        new SequentialCommandGroup(
+          new WaitCommand(1),
+          new TubeIn(tube)
+        )
+    ).withTimeout(4)//, TODO - enable driving but probably put it before
     //new DriveDistance(driveLine, logger, -120)*/
     );
 
-    // TODO - this command  has not been tested!
     private final Command drivePickUpBallShoot = new SequentialCommandGroup(
       new DeployCollector(collectorDeployer),
       new ParallelCommandGroup(
         // the ball should get picked up while this is running
         new Collect(collector),
-        new DriveDistance(driveLine, logger, 42)
-      ).withTimeout(5), // TODO - timeout
-      new TurnToAngle(driveLine, logger, 180),
+        new DriveDistance(driveLine, logger, 60)
+      ).withTimeout(5) // TODO - timeout
+      ,
+      new TurnToAngle(driveLine, logger, 180)
+      ,
       new ParallelCommandGroup(
-      new Shoot(shooter),
-      new SequentialCommandGroup(
-        new WaitCommand(1),
-        new TubeIn(tube)
-      ).withTimeout(3)
-    )
+        new Shoot(shooter),
+        new SequentialCommandGroup(
+          new WaitCommand(1),
+          new TubeIn(tube)
+        )
+      ).withTimeout(5)
+      
+    
     );
 
     private final Command driveTenFeetForwards = new SequentialCommandGroup(
@@ -153,7 +157,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     private void configureXBoxController() {      
       // Collector - out
       new JoystickButton(xboxController, XBoxJoystick.RB)
-        .whenPressed(new InstantCommand(collector::out, collector))
+        .whenPressed(new CollectOut(collector))
         .whenReleased(new InstantCommand(collector::stopCollect, collector));
 
       // Tube - in
