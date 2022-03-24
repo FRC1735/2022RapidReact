@@ -76,26 +76,25 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     // TODO - this command has not been tested!
     private final Command shootBallThenBackUp = new SequentialCommandGroup(
       new DeployCollector(collectorDeployer).withTimeout(1.5),
-      new ParallelCommandGroup(
+  
+    new ParallelCommandGroup(
         new Shoot(shooter),
         new SequentialCommandGroup(
           new WaitCommand(1),
           new TubeIn(tube)
         )
-    ).withTimeout(4)//, TODO - enable driving but probably put it before
-    //new DriveDistance(driveLine, logger, -120)*/
+    ).withTimeout(4),//, TODO - enable driving but probably put it before
+    new DriveDistance(driveLine, logger, -48)
     );
 
     private final Command drivePickUpBallShoot = new SequentialCommandGroup(
-      new DeployCollector(collectorDeployer),
+      new DeployCollector(collectorDeployer).withTimeout(1.5),
       new ParallelCommandGroup(
         // the ball should get picked up while this is running
         new Collect(collector),
         new DriveDistance(driveLine, logger, 60)
-      ).withTimeout(5) // TODO - timeout
-      ,
-      new TurnToAngle(driveLine, logger, 180)
-      ,
+      ).withTimeout(5),
+      new TurnToAngle(driveLine, logger, 180),
       new ParallelCommandGroup(
         new Shoot(shooter),
         new SequentialCommandGroup(
@@ -103,8 +102,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
           new TubeIn(tube)
         )
       ).withTimeout(5)
-      
-    
     );
 
     private final Command driveTenFeetForwards = new SequentialCommandGroup(
