@@ -49,7 +49,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     // Misc
     // Switch this to false to turn off logging
     // TODO - hardcode isCompition check to turn this off automatically
-    private final Log logger = new Log(true);
+    private final Log logger = new Log(false);
 
     // Joysticks
     Joystick xboxController = new Joystick(0);
