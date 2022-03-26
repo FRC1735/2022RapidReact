@@ -88,13 +88,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     );
 
     private final Command drivePickUpBallShoot = new SequentialCommandGroup(
-      new DeployCollector(collectorDeployer).withTimeout(1.5),
+      //new DeployCollector(collectorDeployer).withTimeout(1.5),
       new ParallelCommandGroup(
         // the ball should get picked up while this is running
         new Collect(collector),
-        new DriveDistance(driveLine, logger, 60)
+        new DriveDistance(driveLine, logger, 60),
+        new OptimizeTube(tube)
       ).withTimeout(5),
-      new TurnToAngle(driveLine, logger, 180),
+      new TurnToAngle(driveLine, logger, 180).withTimeout(4),
       new ParallelCommandGroup(
         new Shoot(shooter),
         new SequentialCommandGroup(
@@ -236,12 +237,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
       // TODO - use Joystick to make collector go up and down
 
       // Climb - down, this make the robot climb up
-      new JoystickButton(attack3Controller, 11)
+      new JoystickButton(attack3Controller, 10)
         .whenPressed(new InstantCommand(climber::down, climber))
         .whenReleased(new InstantCommand(climber::stop, climber));
 
       // Climb - up, this makes the robot climb down
-      new JoystickButton(attack3Controller, 10)
+      new JoystickButton(attack3Controller, 11)
         .whenPressed(new InstantCommand(climber::up, climber))
         .whenReleased(new InstantCommand(climber::stop, climber));
     }

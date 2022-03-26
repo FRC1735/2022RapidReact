@@ -37,7 +37,7 @@ public class TurnToAngle extends PIDCommand {
         angle,
         // This uses the output
         output -> {
-          double clampedOutput = MathUtil.clamp(output, -.1, .1);
+          double clampedOutput = MathUtil.clamp(output, -.3, .3);
           driveLine.set(clampedOutput, clampedOutput);
         });
 

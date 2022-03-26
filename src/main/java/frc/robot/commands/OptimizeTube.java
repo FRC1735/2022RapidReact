@@ -52,7 +52,7 @@ public class OptimizeTube extends CommandBase {
     }
 
     // front
-    if (sensors.isBallDetected(0)) {
+    else if (sensors.isBallDetected(0)) {
       tube.inOptimize();
     }
     else {
