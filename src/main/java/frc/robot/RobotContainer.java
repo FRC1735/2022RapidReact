@@ -88,7 +88,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     );
 
     private final Command drivePickUpBallShoot = new SequentialCommandGroup(
-      //new DeployCollector(collectorDeployer).withTimeout(1.5),
+      new DeployCollector(collectorDeployer).withTimeout(1.5),
       new ParallelCommandGroup(
         // the ball should get picked up while this is running
         new Collect(collector),
