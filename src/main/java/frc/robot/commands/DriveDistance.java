@@ -47,7 +47,7 @@ public class DriveDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putNumber("Encoder position", driveLine.getEncoderPosition());
+    //SmartDashboard.putNumber("Encoder position", driveLine.getEncoderPosition());
     logger.log("DriveDistance.isFinished(): encoder position: " + driveLine.getEncoderPosition());
     if (Math.abs(driveLine.getEncoderPosition()) > Math.abs(distanceTicks)) {
       logger.log("DriveDistance.isFinished(): stopping");

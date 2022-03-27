@@ -46,14 +46,12 @@ public class Driveline extends SubsystemBase {
     followLeftMotor.follow(leftMotor);
     followRightMotor.follow(rightMotor);
 
-
     differentialDrive = new DifferentialDrive(leftMotor, rightMotor);
 
-    /*
+    // jta
     differentialDrive.setSafetyEnabled(true);
     differentialDrive.setExpiration(0.1);
     differentialDrive.setMaxOutput(1.0);
-    */
   }
 
   @Override

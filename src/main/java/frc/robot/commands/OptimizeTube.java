@@ -41,9 +41,11 @@ public class OptimizeTube extends CommandBase {
     List<Double> distances = sensors.getDistances();
 
     // TODO -  remove???
+    /*
     for (int i = 0; i < distances.size(); i++) {
       SmartDashboard.putNumber("Distance Sensor " + i, distances.get(i));
     }
+    */
 
     // verify that the rear sensor is in analog 1
     if (sensors.isBallDetected(1)) {

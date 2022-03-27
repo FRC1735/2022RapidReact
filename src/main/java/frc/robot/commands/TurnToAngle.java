@@ -25,7 +25,8 @@ public class TurnToAngle extends PIDCommand {
   private Log logger;
   
    public TurnToAngle(final Driveline driveLine, final Log logger, final int angle) {
-      this(driveLine, logger, angle, SmartDashboard.getNumber("Turn P", 0.005), SmartDashboard.getNumber("Turn I", 0), SmartDashboard.getNumber("Turn D", 0));
+      //this(driveLine, logger, angle, SmartDashboard.getNumber("Turn P", 0.005), SmartDashboard.getNumber("Turn I", 0), SmartDashboard.getNumber("Turn D", 0));
+      this(driveLine, logger, angle, 0.005, 0, 0);
     }   
 
 
@@ -58,9 +59,9 @@ public class TurnToAngle extends PIDCommand {
   public void initialize() {
     driveLine.zeroYaw();
 
-    double p = SmartDashboard.getNumber("Turn P", 0.005);
-    double i = SmartDashboard.getNumber("Turn I", 0);
-    double d = SmartDashboard.getNumber("Turn D", 0);
+    double p =  0.005; //SmartDashboard.getNumber("Turn P", 0.005);
+    double i = 0; //SmartDashboard.getNumber("Turn I", 0);
+    double d = 0; //SmartDashboard.getNumber("Turn D", 0);
 
     getController().setP(p);
     getController().setI(i);

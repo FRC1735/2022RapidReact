@@ -17,7 +17,7 @@ public class CollectorDeployer extends SubsystemBase {
 
   /** Creates a new CollectorDeployer. */
   public CollectorDeployer() {
-    deployController = new WPI_TalonSRX(10);
+    deployController = new WPI_TalonSRX(12);
 
     deployController.setNeutralMode(NeutralMode.Brake);
   }
@@ -26,8 +26,8 @@ public class CollectorDeployer extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    SmartDashboard.putNumber("fwd", deployController.isFwdLimitSwitchClosed());
-    SmartDashboard.putNumber("rev", deployController.isRevLimitSwitchClosed());
+    //SmartDashboard.putNumber("fwd", deployController.isFwdLimitSwitchClosed());
+    //SmartDashboard.putNumber("rev", deployController.isRevLimitSwitchClosed());
   }
 
   public boolean isDeployed() {

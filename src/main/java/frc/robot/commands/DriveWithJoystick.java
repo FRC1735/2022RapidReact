@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.Driveline;
 import frc.robot.util.Log;
 
@@ -30,12 +31,27 @@ private Log logger;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // jta
+    //System.out.println("DriveWithJoystick - execute");
+
     double x = joystick.getRawAxis(0);
     double y = joystick.getRawAxis(1);
 
+    //System.out.println("x=" + x + ", y=" + y);
+
+
     //logger.log("DriveWithJoystick(x=" + x + ", y=" + y + ")");
 
-    driveLine.arcadeDrive(x, y);
+    // TODO - deadzone
+
+  
+    boolean halfSpeed = joystick.getRawButton(XBoxJoystick.LB);
+
+    if (halfSpeed) {
+      driveLine.arcadeDrive(x / 2, y / 2);
+    } else {
+      driveLine.arcadeDrive(x, y);
+    }
   }
 
   // Called once the command ends or is interrupted.

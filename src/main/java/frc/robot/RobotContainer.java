@@ -5,6 +5,7 @@
   package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -73,18 +74,16 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
     // Auto commands
     
-    // TODO - this command has not been tested!
     private final Command shootBallThenBackUp = new SequentialCommandGroup(
-      new DeployCollector(collectorDeployer).withTimeout(1.5),
-  
+    new DeployCollector(collectorDeployer).withTimeout(1.5),
+    new DriveDistance(driveLine, logger, -60),
     new ParallelCommandGroup(
         new Shoot(shooter),
         new SequentialCommandGroup(
           new WaitCommand(1),
           new TubeIn(tube)
         )
-    ).withTimeout(4),//, TODO - enable driving but probably put it before
-    new DriveDistance(driveLine, logger, -48)
+    ).withTimeout(5)
     );
 
     private final Command drivePickUpBallShoot = new SequentialCommandGroup(
@@ -114,12 +113,21 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
     private final Command doNothing = new WaitCommand(1);
     SendableChooser<Command> autoChooser = new SendableChooser<>();
 
+    private UsbCamera startAutomaticCapture;
+
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
 
+      // JTA / TODO - if you reenable this disable in Robot.robotInit
       // https://docs.wpilib.org/en/stable/docs/software/vision-processing/roborio/using-the-cameraserver-on-the-roborio.html
-      CameraServer.startAutomaticCapture();
+      //CameraServer.startAutomaticCapture();
+      //startAutomaticCapture = CameraServer.startAutomaticCapture();
+      //startAutomaticCapture.setResolution(128, 72);
+      //startAutomaticCapture.setFPS(12);
+
+      
+
 
       configureButtonBindings();
 
@@ -130,9 +138,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
       autoChooser.addOption("Drive, Pick Up Ball, Shoot", drivePickUpBallShoot);
       SmartDashboard.putData(autoChooser);
 
+      /*
       SmartDashboard.putNumber("Turn P", 0.005);
       SmartDashboard.putNumber("Turn I", 0);
       SmartDashboard.putNumber("Turn D", 0);
+      */
 
       driveLine.setDefaultCommand(driveWithJoystickCommand);
       collectorDeployer.setDefaultCommand(deployCollectorWithJoystickCommand);
