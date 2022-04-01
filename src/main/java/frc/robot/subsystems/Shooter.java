@@ -9,6 +9,7 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
@@ -17,6 +18,7 @@ public class Shooter extends SubsystemBase {
   private SparkMaxPIDController pidController;
   private double targetVelocity = 0; 
   private int rollingAvg = 0;
+  private String SHOOTER_SPEED_KEY = "SHOOTER_SPEED";
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -32,11 +34,15 @@ public class Shooter extends SubsystemBase {
     pidController.setOutputRange(0, 1);
 
     motor.burnFlash();
+
+    // TODO - keep 3750 for high goal speed
+
+    SmartDashboard.putNumber("SHOOTER_SPEED", 3750);
   }
 
   public void setVelocity() {
     //3500 - 4000 seems to be the ideal for shooting
-    targetVelocity = 3750;
+    targetVelocity = SmartDashboard.getNumber(SHOOTER_SPEED_KEY, 3750);
     pidController.setReference(targetVelocity, ControlType.kVelocity);
   }
 
