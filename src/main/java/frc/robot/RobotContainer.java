@@ -40,6 +40,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 
   /**
    * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -173,22 +174,38 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
         .whenPressed(new TubeIn(tube))
         .whenReleased(new InstantCommand(tube::stop, tube));
 
-      // Tube - out
+      // Tube - in
       new JoystickButton(xboxController, XBoxJoystick.Y)
-        .whenPressed(new TubeOut(tube))
+        .whenPressed(new TubeIn(tube))
         .whenReleased(new InstantCommand(tube::stop, tube));
 
       // Shooter - on
       new JoystickButton(xboxController, XBoxJoystick.A)
-        .whenPressed(shooter::setVelocity, shooter)
+        .whenPressed(shooter::shootHigh, shooter)
         .whenReleased(new InstantCommand(shooter::stop, shooter));
 
       // Shooter - unshoot
       new JoystickButton(xboxController, XBoxJoystick.B)
-        .whenPressed(new InstantCommand(shooter::unShoot, shooter))
+        .whenPressed(shooter::shootLow, shooter)
         .whenReleased(new InstantCommand(shooter::stop, shooter));
 
+      // Reverse deliver (tube) and collect
+      new JoystickButton(xboxController, XBoxJoystick.BACK)
+        .whenPressed(new ParallelCommandGroup(
+          new TubeOut(tube),
+          new CollectOut(collector)
+        ))
+        .whenReleased(
+          new ParallelCommandGroup(
+            new InstantCommand(tube::stop, tube),
+            new InstantCommand(collector::stopCollect, collector)
+          )
+        );
 
+        // Reverse shoot
+        new JoystickButton(xboxController, XBoxJoystick.START)
+          .whenPressed(new InstantCommand(shooter::unShoot, shooter))
+          .whenReleased(new InstantCommand(shooter::stop, shooter));
 
       /*
 

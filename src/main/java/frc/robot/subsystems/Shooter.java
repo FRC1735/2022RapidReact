@@ -20,6 +20,9 @@ public class Shooter extends SubsystemBase {
   private int rollingAvg = 0;
   private String SHOOTER_SPEED_KEY = "SHOOTER_SPEED";
 
+  private int LOW_SHOOTER_SPEED = 1800;
+  private int HIGH_SHOOTER_SPEED = 3750;
+
   /** Creates a new Shooter. */
   public Shooter() {
     motor = new CANSparkMax(6, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -44,6 +47,14 @@ public class Shooter extends SubsystemBase {
     //3500 - 4000 seems to be the ideal for shooting
     targetVelocity = SmartDashboard.getNumber(SHOOTER_SPEED_KEY, 3750);
     pidController.setReference(targetVelocity, ControlType.kVelocity);
+  }
+
+  public void shootLow() {
+    pidController.setReference(LOW_SHOOTER_SPEED, ControlType.kVelocity);
+  }
+
+  public void shootHigh() {
+    pidController.setReference(HIGH_SHOOTER_SPEED, ControlType.kVelocity);
   }
 
   @Override
