@@ -11,7 +11,7 @@ import java.util.List;
 public class DistanceSensorGroup {
     List<DistanceSensor> sensors;
 
-    double MIN_DETECTION_THRESHOLD_CM = 0;
+    double MIN_DETECTION_THRESHOLD_CM = 0.1;
     double MAX_DETECTION_THRESTHOLD_CM = 15;
 
     public DistanceSensorGroup(int frontSensorPort, int rearSensorPort) {
