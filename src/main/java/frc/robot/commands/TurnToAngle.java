@@ -38,7 +38,7 @@ public class TurnToAngle extends PIDCommand {
         angle,
         // This uses the output
         output -> {
-          double clampedOutput = MathUtil.clamp(output, -.3, .3);
+          double clampedOutput = MathUtil.clamp(output, -.2, .2);
           driveLine.set(clampedOutput, clampedOutput);
         });
 
@@ -47,7 +47,7 @@ public class TurnToAngle extends PIDCommand {
     addRequirements(driveLine);
 
     // Configure additional PID options by calling `getController` here.
-    getController().enableContinuousInput(-180, 180);
+    //getController().enableContinuousInput(-180, 180);
     getController().setTolerance(2);
 
     this.logger = logger;

@@ -12,8 +12,10 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxRelativeEncoder;
 
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveKinematicsConstraint;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Log;
 
@@ -25,7 +27,7 @@ public class Driveline extends SubsystemBase {
   private CANSparkMax followRightMotor;
   private RelativeEncoder rightEncoder;
   private RelativeEncoder leftEncoder;
-  public final AHRS gyro;
+  public final ADXRS450_Gyro gyro;
   private Log logger;
 
   // TODO - set motors to coast
@@ -39,7 +41,7 @@ public class Driveline extends SubsystemBase {
     
     rightMotor = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless); // og - 4, testing with 5 because 4 wasn't working
     rightEncoder = rightMotor.getEncoder(); //.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 4096);
-    gyro = new AHRS(I2C.Port.kMXP);
+    gyro = new ADXRS450_Gyro();
 
     followRightMotor = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless);
     followLeftMotor = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -61,6 +63,9 @@ public class Driveline extends SubsystemBase {
     // Left Encoder Position: -7.666683197021484 Right Encoder Value: -7.523824214935303
     // 1 foot Left Encoder Position: -0.4999997913837433 Right Encoder Value: -0.4999997913837433
     // 2 foot Left Encoder Position: 6.833340167999268 Right Encoder Value: 6.880959987640381
+
+    // TODO - rm
+    SmartDashboard.putNumber("GYRO", getYaw());
    }
 
    public void set(double leftValue, double rightValue) {
@@ -82,11 +87,11 @@ public class Driveline extends SubsystemBase {
   }
 
    public void zeroYaw() {
-     gyro.zeroYaw();
+     gyro.reset();
    }
 
    public double getYaw() {
-     return (gyro.getYaw());
+     return gyro.getAngle();
    }
   
    public void setSpeed(double right, double left) {

@@ -111,6 +111,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
     private final Command driveTenFeetBackwards = new SequentialCommandGroup(
       new DriveDistance(driveLine, logger, -120)
     );
+    private final Command turn180 = new TurnToAngle(driveLine, logger, 180);
     private final Command doNothing = new WaitCommand(1);
     SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -133,6 +134,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
       configureButtonBindings();
 
       autoChooser.setDefaultOption("Do Nothing", doNothing);
+      autoChooser.addOption("Turn 180", turn180);
       autoChooser.addOption("Drive 10 Feet Forwards", driveTenFeetForwards);
       autoChooser.addOption("Drive 10 Feet Backwards", driveTenFeetBackwards);
       autoChooser.addOption("Shoot Ball Then Back Up", shootBallThenBackUp);
