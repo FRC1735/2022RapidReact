@@ -28,13 +28,11 @@ public class Lighting extends SubsystemBase {
 
   @Override
   public void periodic() {
-    /*
     double matchTime = DriverStation.getMatchTime();
 
     if (!DriverStation.isAutonomous() && (matchTime < 10) && (matchTime > 7.9)) {
       setColor(255, 0, 0);
     }
-    */
   }
 
   public void on() {
