@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lighting extends SubsystemBase {
@@ -32,14 +31,6 @@ public class Lighting extends SubsystemBase {
     double matchTime = DriverStation.getMatchTime();
 
     if (!DriverStation.isAutonomous() && (matchTime < 10) && (matchTime > 7.9)) {
-      //  TODO - this won't work on red alliance
-      setColor(0, 255, 0);
-      return;
-    }
-
-    if (DriverStation.getAlliance().equals(Alliance.Blue)) {
-      setColor(0, 0, 255);
-    } else {
       setColor(255, 0, 0);
     }
   }
