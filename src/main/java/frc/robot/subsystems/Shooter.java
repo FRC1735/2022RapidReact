@@ -22,6 +22,7 @@ public class Shooter extends SubsystemBase {
 
   private int LOW_SHOOTER_SPEED = 1800;
   private int HIGH_SHOOTER_SPEED = 3750;
+  private int AUTO_SHOOTER_SPEED = 4000;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -45,8 +46,8 @@ public class Shooter extends SubsystemBase {
 
   public void setVelocity() {
     //3500 - 4000 seems to be the ideal for shooting
-    targetVelocity = SmartDashboard.getNumber(SHOOTER_SPEED_KEY, 3750);
-    pidController.setReference(targetVelocity, ControlType.kVelocity);
+    //targetVelocity = SmartDashboard.getNumber(SHOOTER_SPEED_KEY, 3750);
+    pidController.setReference(AUTO_SHOOTER_SPEED, ControlType.kVelocity);
   }
 
   public void shootLow() {

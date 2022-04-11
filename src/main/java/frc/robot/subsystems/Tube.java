@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -24,6 +25,9 @@ public class Tube extends SubsystemBase {
     motorA = new WPI_VictorSPX(8);
     motorB = new WPI_TalonSRX(9);
     distanceSensorGroup = new DistanceSensorGroup(0, 1);
+
+    motorA.setNeutralMode(NeutralMode.Brake);
+    motorB.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override

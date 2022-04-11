@@ -71,7 +71,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(logger, xboxController, driveLine);
     private final DeployCollectorWithJoystick deployCollectorWithJoystickCommand = new DeployCollectorWithJoystick(attack3Controller, collectorDeployer);
     private final CollectWithTrigger collectWithTrigger = new CollectWithTrigger(xboxController, collector);
-    private final OptimizeTube optimizeTube = new OptimizeTube(tube);
+    private final OptimizeTube optimizeTube = new OptimizeTube(tube, lighting);
 
     // Auto commands
     
@@ -93,7 +93,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
         // the ball should get picked up while this is running
         new Collect(collector),
         new DriveDistance(driveLine, logger, 60),
-        new OptimizeTube(tube)
+        new OptimizeTube(tube, lighting)
       ).withTimeout(5),
       new TurnToAngle(driveLine, logger, 180).withTimeout(4),
       new ParallelCommandGroup(

@@ -10,23 +10,31 @@ package frc.robot.commands;
 import java.util.List;
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.sensors.DistanceSensor;
 import frc.robot.sensors.DistanceSensorGroup;
+import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Tube;
 
 public class OptimizeTube extends CommandBase {
   Logger logger = Logger.getGlobal();
 
   private Tube tube;
+  private Lighting lighting;
+
   /**
    * Creates a new OptimizeTube.
    */
-  public OptimizeTube(Tube thatTube) {
+  public OptimizeTube(Tube thatTube, Lighting thatLighting) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(thatTube);
     this.tube = thatTube;
+
+    addRequirements(thatLighting);
+    this.lighting = thatLighting;
   }
 
   // Called when the command is initially scheduled.
@@ -50,6 +58,14 @@ public class OptimizeTube extends CommandBase {
     // verify that the rear sensor is in analog 1
     if (sensors.isBallDetected(1)) {
       tube.stop();
+
+      Alliance alliance = DriverStation.getAlliance();
+      if (alliance != null && alliance.equals(Alliance.Blue)) {
+        lighting.setColor(0, 0, 255);
+      } else {
+        lighting.setColor(255, 0, 0);
+      }
+
       return;
     }
 
@@ -60,6 +76,8 @@ public class OptimizeTube extends CommandBase {
     else {
       tube.stop();
     }
+
+    lighting.setColor(0, 255, 0);
   }
 
   // Called once the command ends or is interrupted.
