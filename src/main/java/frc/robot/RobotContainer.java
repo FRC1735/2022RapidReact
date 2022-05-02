@@ -63,9 +63,10 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
     private final Collector collector = new Collector();
     private final CollectorDeployer collectorDeployer = new CollectorDeployer();
     private final Driveline driveLine = new Driveline(logger);
-    private final Shooter shooter= new Shooter();
     private final Climber climber = new Climber();
     private final Lighting lighting = new Lighting();
+    private final Shooter shooter= new Shooter(lighting);
+
 
     // Commands
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(logger, xboxController, driveLine);

@@ -19,17 +19,21 @@ public class Shooter extends SubsystemBase {
   private double targetVelocity = 0; 
   private int rollingAvg = 0;
   private String SHOOTER_SPEED_KEY = "SHOOTER_SPEED";
+  private Lighting lighting;
+  private boolean flipFlop = true;
+  private int lightFlipperOrSomethingLikeThat = 0;
 
   private int LOW_SHOOTER_SPEED = 1800;
   private int HIGH_SHOOTER_SPEED = 3750;
   private int AUTO_SHOOTER_SPEED = 4000;
 
   /** Creates a new Shooter. */
-  public Shooter() {
+  public Shooter(Lighting lighting) {
     motor = new CANSparkMax(6, CANSparkMaxLowLevel.MotorType.kBrushless);
     encoder = motor.getEncoder();
     pidController = motor.getPIDController();
-
+    this.lighting = lighting;
+    
     pidController.setP(0.0002);
     pidController.setI(0.0);
     pidController.setD(0.0);
@@ -52,16 +56,33 @@ public class Shooter extends SubsystemBase {
 
   public void shootLow() {
     pidController.setReference(LOW_SHOOTER_SPEED, ControlType.kVelocity);
+    
   }
 
   public void shootHigh() {
-    pidController.setReference(HIGH_SHOOTER_SPEED, ControlType.kVelocity);
+    targetVelocity = SmartDashboard.getNumber(SHOOTER_SPEED_KEY, 3750);
+    pidController.setReference(targetVelocity, ControlType.kVelocity);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+  // This method will be called once per scheduler run
+    if ((LOW_SHOOTER_SPEED - 50) < motor.getEncoder().getVelocity() && (LOW_SHOOTER_SPEED + 50) > motor.getEncoder().getVelocity()) {
+      lighting.setColor(255, 0, 255, true);
+
+    } else
+    if ((HIGH_SHOOTER_SPEED - 50) < motor.getEncoder().getVelocity() && (HIGH_SHOOTER_SPEED + 50) > motor.getEncoder().getVelocity()) {
+      lighting.setColor(255, 255, 255);
+    } //else {
+     // lighting.setColor(0, 255, 0);
+ //   }
+
+
+    SmartDashboard.putNumber("current speed", motor.getEncoder().getVelocity());
   }
+
+
+  
 
   public void shoot() {
     motor.set(0.2);
