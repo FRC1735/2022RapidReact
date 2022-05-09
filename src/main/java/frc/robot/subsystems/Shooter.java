@@ -68,14 +68,15 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
   // This method will be called once per scheduler run
     if ((LOW_SHOOTER_SPEED - 50) < motor.getEncoder().getVelocity() && (LOW_SHOOTER_SPEED + 50) > motor.getEncoder().getVelocity()) {
-      lighting.setColor(255, 0, 255, true);
-
-    } else
-    if ((HIGH_SHOOTER_SPEED - 50) < motor.getEncoder().getVelocity() && (HIGH_SHOOTER_SPEED + 50) > motor.getEncoder().getVelocity()) {
-      lighting.setColor(255, 255, 255);
-    } //else {
-     // lighting.setColor(0, 255, 0);
- //   }
+      lighting.lock("shooter");
+      lighting.setColor(255, 0, 255, "shooter");
+    } else if ((HIGH_SHOOTER_SPEED - 50) < motor.getEncoder().getVelocity() && (HIGH_SHOOTER_SPEED + 50) > motor.getEncoder().getVelocity()) {
+      lighting.lock("shooter");
+      lighting.setColor(255, 255, 255, "shooter");
+    } else {
+      lighting.unlock();
+      //lighting.setColor(0, 255, 0);
+    }
 
 
     SmartDashboard.putNumber("current speed", motor.getEncoder().getVelocity());

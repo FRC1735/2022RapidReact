@@ -12,11 +12,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Lighting extends SubsystemBase {
   private AddressableLED led;
   private AddressableLEDBuffer buffer;
-  private int LED_COUNT = 60; // TODO - correct count?XS
+  private int LED_COUNT = 60;
+
+  private String lockHolder = "";
 
   /** Creates a new Lighting. */
   public Lighting() {
-    led = new AddressableLED(0); // TODO - correct port?
+    led = new AddressableLED(0);
     buffer = new AddressableLEDBuffer(LED_COUNT);
     led.setLength(buffer.getLength());
 
@@ -44,10 +46,27 @@ public class Lighting extends SubsystemBase {
     led.stop();
   }
 
-  public void setColor(int r, int g, int b) {
-    for (int i = 0; i < buffer.getLength(); i++) {
-      buffer.setRGB(i, r, g, b);
-    }
-    led.setData(buffer);
+  public void lock(final String lockHolder) {
+    this.lockHolder = lockHolder;
   }
+
+  public void unlock() {
+    this.lockHolder  = "";
+  }
+
+  public void setColor(int r, int g, int b, String caller) {
+
+    if (caller != null && caller.equals(lockHolder)) {
+
+      for (int i = 0; i < buffer.getLength(); i++) {
+        buffer.setRGB(i, r, g, b);
+      }
+      led.setData(buffer);
+    }
+  }
+
+  public void setColor(int r, int g, int b) {
+    setColor(r, g, b, "");
+  }
+
 }
