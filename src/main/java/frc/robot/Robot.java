@@ -8,6 +8,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
+    
     visionThread = 
       new Thread(
         () -> {
@@ -42,12 +44,13 @@ public class Robot extends TimedRobot {
           camera.setResolution(320, 240);
           camera.setFPS(5);
 
-          CvSink cvSink = CameraServer.getVideo();
-          CvSource outputStream = CameraServer.putVideo("rectangle", 640, 480);
+          //CvSink cvSink = CameraServer.getVideo();
+          //CvSource outputStream = CameraServer.putVideo("rectangle", 640, 480);
         }
       );
       visionThread.setDaemon(true);
       visionThread.start();
+      
   }
 
   /**
@@ -78,10 +81,14 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    m_robotContainer.driveLine.setAutoCoast();
+    m_robotContainer.driveLine.zeroYaw();
+
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
   }
 
   /** This function is called periodically during autonomous. */
@@ -97,6 +104,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    m_robotContainer.driveLine.setDriveCoast();
+
   }
 
   /** This function is called periodically during operator control. */

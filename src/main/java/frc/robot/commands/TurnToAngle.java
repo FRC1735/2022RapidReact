@@ -57,7 +57,7 @@ public class TurnToAngle extends PIDCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveLine.zeroYaw();
+    //driveLine.zeroYaw();
 
     double p =  0.005; //SmartDashboard.getNumber("Turn P", 0.005);
     double i = 0; //SmartDashboard.getNumber("Turn I", 0);

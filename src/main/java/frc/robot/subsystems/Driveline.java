@@ -10,9 +10,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxRelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -50,10 +52,35 @@ public class Driveline extends SubsystemBase {
 
     differentialDrive = new DifferentialDrive(leftMotor, rightMotor);
 
-    // jta
     differentialDrive.setSafetyEnabled(true);
     differentialDrive.setExpiration(0.1);
     differentialDrive.setMaxOutput(1.0);
+  }
+
+  public void setDriveCoast() {
+    leftMotor.setIdleMode(IdleMode.kCoast);
+    rightMotor.setIdleMode(IdleMode.kCoast);
+    followLeftMotor.setIdleMode(IdleMode.kCoast);
+    followRightMotor.setIdleMode(IdleMode.kCoast);
+
+    double r = 0.675;
+    leftMotor.setOpenLoopRampRate(r);
+    rightMotor.setOpenLoopRampRate(r);
+    followLeftMotor.setOpenLoopRampRate(r);
+    followRightMotor.setOpenLoopRampRate(r);
+  }
+
+  public void setAutoCoast() {
+    leftMotor.setIdleMode(IdleMode.kCoast);
+    rightMotor.setIdleMode(IdleMode.kCoast);
+    followLeftMotor.setIdleMode(IdleMode.kCoast);
+    followRightMotor.setIdleMode(IdleMode.kCoast);
+
+    double r = 0;
+    leftMotor.setOpenLoopRampRate(r);
+    rightMotor.setOpenLoopRampRate(r);
+    followLeftMotor.setOpenLoopRampRate(r);
+    followRightMotor.setOpenLoopRampRate(r);
   }
 
   @Override
@@ -66,7 +93,7 @@ public class Driveline extends SubsystemBase {
 
     // TODO - rm
     SmartDashboard.putNumber("GYRO", getYaw());
-   }
+  }
 
    public void set(double leftValue, double rightValue) {
     logger.log("Driveline set(leftValue: " + leftValue + ", rightValue: " + rightValue);

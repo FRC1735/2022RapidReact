@@ -62,7 +62,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
     private final Tube tube = new Tube();
     private final Collector collector = new Collector();
     private final CollectorDeployer collectorDeployer = new CollectorDeployer();
-    private final Driveline driveLine = new Driveline(logger);
+    public final Driveline driveLine = new Driveline(logger);
     private final Climber climber = new Climber();
     private final Lighting lighting = new Lighting();
     private final Shooter shooter= new Shooter(lighting);
@@ -78,7 +78,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
     
     private final Command shootBallThenBackUp = new SequentialCommandGroup(
     new DeployCollector(collectorDeployer).withTimeout(1.5),
-    new DriveDistance(driveLine, logger, -60),
+    new DriveDistance(driveLine, logger, -33),
     new ParallelCommandGroup(
         new Shoot(shooter),
         new SequentialCommandGroup(
@@ -89,6 +89,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
     );
 
     private final Command drivePickUpBallShoot = new SequentialCommandGroup(
+      //new InstantCommand(driveLine::zeroYaw, driveLine),
       new DeployCollector(collectorDeployer).withTimeout(1.5),
       new ParallelCommandGroup(
         // the ball should get picked up while this is running
@@ -96,7 +97,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
         new DriveDistance(driveLine, logger, 60),
         new OptimizeTube(tube, lighting)
       ).withTimeout(5),
-      new TurnToAngle(driveLine, logger, 180).withTimeout(4),
+      new TurnToAngle(driveLine, logger, 180).withTimeout(3.5),
       new ParallelCommandGroup(
         new Shoot(shooter),
         new SequentialCommandGroup(
@@ -107,12 +108,14 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
     );
 
     private final Command driveTenFeetForwards = new SequentialCommandGroup(
-      new DriveDistance(driveLine, logger, 120)
+      new DriveDistance(driveLine, logger, 180)
     );
     private final Command driveTenFeetBackwards = new SequentialCommandGroup(
-      new DriveDistance(driveLine, logger, -120)
+      new DriveDistance(driveLine, logger, -180)
     );
-    private final Command turn180 = new TurnToAngle(driveLine, logger, 180);
+    private final Command turn180 = new SequentialCommandGroup(
+      //new InstantCommand(driveLine::zeroYaw, driveLine),
+      new TurnToAngle(driveLine, logger, 180));
     private final Command doNothing = new WaitCommand(1);
     SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -138,7 +141,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
       autoChooser.addOption("Turn 180", turn180);
       autoChooser.addOption("Drive 10 Feet Forwards", driveTenFeetForwards);
       autoChooser.addOption("Drive 10 Feet Backwards", driveTenFeetBackwards);
-      autoChooser.addOption("Shoot Ball Then Back Up", shootBallThenBackUp);
+      autoChooser.addOption("Deploy, Backup, Shoot", shootBallThenBackUp);
       autoChooser.addOption("Drive, Pick Up Ball, Shoot", drivePickUpBallShoot);
       SmartDashboard.putData(autoChooser);
 

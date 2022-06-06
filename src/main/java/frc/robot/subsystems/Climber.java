@@ -6,14 +6,20 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.SparkMaxLimitSwitch.Type;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
   private CANSparkMax motor;
 
   private final double SPEED = 1;
+
+  private SparkMaxLimitSwitch reverseLimitSwitch;
+  private SparkMaxLimitSwitch forwardLimitSwitch;
 
   /** Creates a new Climber. */
   public Climber() {
@@ -23,6 +29,13 @@ public class Climber extends SubsystemBase {
   
     @Override
     public void periodic() {
+      forwardLimitSwitch = motor.getForwardLimitSwitch(Type.kNormallyOpen);
+      reverseLimitSwitch = motor.getReverseLimitSwitch(Type.kNormallyOpen);
+      boolean reversePressed = reverseLimitSwitch.isPressed();
+      boolean forwardPressed = forwardLimitSwitch.isPressed();
+      SmartDashboard.putBoolean("forwardLimit", forwardPressed);
+      SmartDashboard.putBoolean("reverseLimit", reversePressed);
+
       // This method will be called once per scheduler run
     }
   

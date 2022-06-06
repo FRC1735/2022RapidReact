@@ -34,11 +34,11 @@ public class Shooter extends SubsystemBase {
     pidController = motor.getPIDController();
     this.lighting = lighting;
     
-    pidController.setP(0.0002);
+    pidController.setP(0.0007);
     pidController.setI(0.0);
-    pidController.setD(0.0);
+    pidController.setD(1);
     pidController.setIZone(0.0);
-    pidController.setFF(0.000175);
+    pidController.setFF(0.000185);
     pidController.setOutputRange(0, 1);
 
     motor.burnFlash();
@@ -60,8 +60,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void shootHigh() {
-    targetVelocity = SmartDashboard.getNumber(SHOOTER_SPEED_KEY, 3750);
-    pidController.setReference(targetVelocity, ControlType.kVelocity);
+    //targetVelocity = SmartDashboard.getNumber(SHOOTER_SPEED_KEY, 3750);
+    pidController.setReference(HIGH_SHOOTER_SPEED, ControlType.kVelocity);
   }
 
   @Override
@@ -75,7 +75,6 @@ public class Shooter extends SubsystemBase {
       lighting.setColor(255, 255, 255, "shooter");
     } else {
       lighting.unlock();
-      //lighting.setColor(0, 255, 0);
     }
 
 
