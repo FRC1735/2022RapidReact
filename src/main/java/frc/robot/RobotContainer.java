@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +27,7 @@ import frc.robot.commands.TubeIn;
 import frc.robot.commands.TubeOut;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.joysticks.XBoxJoystick;
+import frc.robot.subsystems.BallShooter;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.CollectorDeployer;
@@ -66,6 +68,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
     private final Climber climber = new Climber();
     private final Lighting lighting = new Lighting();
     private final Shooter shooter= new Shooter(lighting);
+    private final BallShooter ballShooter = new BallShooter();
 
 
     // Commands
@@ -132,7 +135,6 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
       //startAutomaticCapture.setResolution(128, 72);
       //startAutomaticCapture.setFPS(12);
 
-      
 
 
       configureButtonBindings();
@@ -144,6 +146,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
       autoChooser.addOption("Deploy, Backup, Shoot", shootBallThenBackUp);
       autoChooser.addOption("Drive, Pick Up Ball, Shoot", drivePickUpBallShoot);
       SmartDashboard.putData(autoChooser);
+
 
       /*
       SmartDashboard.putNumber("Turn P", 0.005);
@@ -175,6 +178,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
         .whenPressed(new CollectOut(collector))
         .whenReleased(new InstantCommand(collector::stopCollect, collector));
 
+        /*
       // Tube - in
       new JoystickButton(xboxController, XBoxJoystick.X)
         .whenPressed(new TubeIn(tube))
@@ -184,6 +188,11 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
       new JoystickButton(xboxController, XBoxJoystick.Y)
         .whenPressed(new TubeIn(tube))
         .whenReleased(new InstantCommand(tube::stop, tube));
+        */
+
+      new JoystickButton(xboxController, XBoxJoystick.X)
+      .whenPressed(new InstantCommand(ballShooter::on, ballShooter))
+      .whenReleased(new InstantCommand(ballShooter::off, ballShooter));
 
       // Shooter - on
       new JoystickButton(xboxController, XBoxJoystick.A)
