@@ -55,6 +55,17 @@ public class Driveline extends SubsystemBase {
     differentialDrive.setSafetyEnabled(true);
     differentialDrive.setExpiration(0.1);
     differentialDrive.setMaxOutput(1.0);
+
+    leftMotor.setIdleMode(IdleMode.kCoast);
+    rightMotor.setIdleMode(IdleMode.kCoast);
+    followLeftMotor.setIdleMode(IdleMode.kCoast);
+    followRightMotor.setIdleMode(IdleMode.kCoast);
+
+    double r = 0.675;
+    leftMotor.setOpenLoopRampRate(r);
+    rightMotor.setOpenLoopRampRate(r);
+    followLeftMotor.setOpenLoopRampRate(r);
+    followRightMotor.setOpenLoopRampRate(r);
   }
 
   public void setDriveCoast() {
@@ -125,7 +136,6 @@ public class Driveline extends SubsystemBase {
      rightMotor.set(right);
      leftMotor.set(left);
    }
-
 
   public void arcadeDrive(final double joystickX, final double joystickY) {
     //differentialDrive.arcadeDrive(-joystickY, joystickX, true);
