@@ -65,7 +65,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
     private final Collector collector = new Collector();
     private final CollectorDeployer collectorDeployer = new CollectorDeployer();
     public final Driveline driveLine = new Driveline(logger);
-    private final Climber climber = new Climber();
+    //private final Climber climber = new Climber();
     private final Lighting lighting = new Lighting();
     private final Shooter shooter= new Shooter(lighting);
     private final BallShooter ballShooter = new BallShooter();
@@ -279,6 +279,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
       // TODO - use Joystick to make collector go up and down
 
       // Climb - down, this make the robot climb up
+      /*
       new JoystickButton(attack3Controller, 10)
         .whenPressed(new InstantCommand(climber::down, climber))
         .whenReleased(new InstantCommand(climber::stop, climber));
@@ -287,6 +288,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
       new JoystickButton(attack3Controller, 11)
         .whenPressed(new InstantCommand(climber::up, climber))
         .whenReleased(new InstantCommand(climber::stop, climber));
+        */
     }
 
     /**

@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    
+    /*
     visionThread = 
       new Thread(
         () -> {
@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
       );
       visionThread.setDaemon(true);
       visionThread.start();
+      */
       
   }
 
